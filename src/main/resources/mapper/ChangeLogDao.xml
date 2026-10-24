@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plm.project.dao.ChangeLogDao">
+
+    <resultMap type="com.plm.project.entity.ChangeLog" id="ChangeLogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="entityName" column="entity_name" jdbcType="VARCHAR"/>
+        <result property="entityId" column="entity_id" jdbcType="VARCHAR"/>
+        <result property="property" column="property" jdbcType="VARCHAR"/>
+        <result property="oldValue" column="old_value" jdbcType="VARCHAR"/>
+        <result property="newValue" column="new_value" jdbcType="VARCHAR"/>
+        <result property="operator" column="operator" jdbcType="VARCHAR"/>
+        <result property="source" column="source" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+</mapper>
+
