@@ -2,6 +2,8 @@ package com.plm.project.entity;
 
 import java.util.Date;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -18,6 +20,7 @@ public class Role implements Serializable {
     /**
      * 角色ID
      */
+    @TableField("role_id")
     private Long roleId;
     /**
      * 角色名称
@@ -38,7 +41,7 @@ public class Role implements Serializable {
     /**
      * 删除标志（0代表存在 2代表删除）
      */
-    private String delFlag;
+    private String delFlag="0";
     /**
      * 创建者
      */

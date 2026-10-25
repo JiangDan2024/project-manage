@@ -4,16 +4,16 @@ import com.plm.project.entity.TableConfig;
 import com.plm.project.dao.TableConfigDao;
 import com.plm.project.service.TableConfigService;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.plm.project.vo.TableConfigQueryVo;
+import com.plm.project.vo.query.TableConfigQueryVo;
 import java.util.List;
 /**
  * 用户表格列个性化配置(TableConfig)表服务实现类
  *
  * @author makejava
- * @since 2026-10-23 15:21:44
+ * @since 2026-10-25 15:42:15
  */
 @Service("tableConfigService")
 public class TableConfigServiceImpl extends ServiceImpl<TableConfigDao,TableConfig> implements TableConfigService {

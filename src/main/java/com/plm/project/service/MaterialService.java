@@ -1,16 +1,17 @@
 package com.plm.project.service;
 
 import com.plm.project.entity.Material;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.plm.project.vo.MaterialQueryVo;
+import com.plm.project.vo.query.MaterialQueryVo;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 /**
  * 物料主数据表(Material)表服务接口
  *
  * @author makejava
- * @since 2026-10-23 15:20:39
+ * @since 2026-10-25 15:40:54
  */
 public interface MaterialService extends IService<Material> {
     /**

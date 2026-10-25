@@ -4,16 +4,16 @@ import com.plm.project.entity.Task;
 import com.plm.project.dao.TaskDao;
 import com.plm.project.service.TaskService;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.plm.project.vo.TaskQueryVo;
+import com.plm.project.vo.query.TaskQueryVo;
 import java.util.List;
 /**
  * 任务表(Task)表服务实现类
  *
  * @author makejava
- * @since 2026-10-23 15:20:54
+ * @since 2026-10-25 15:42:31
  */
 @Service("taskService")
 public class TaskServiceImpl extends ServiceImpl<TaskDao,Task> implements TaskService {

@@ -1,16 +1,17 @@
 package com.plm.project.service;
 
 import com.plm.project.entity.Dept;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.plm.project.vo.DeptQueryVo;
+import com.plm.project.vo.query.DeptQueryVo;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 /**
  * 部门表(Dept)表服务接口
  *
  * @author makejava
- * @since 2026-10-23 15:21:09
+ * @since 2026-10-25 15:40:42
  */
 public interface DeptService extends IService<Dept> {
     /**

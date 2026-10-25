@@ -4,16 +4,16 @@ import com.plm.project.entity.Project;
 import com.plm.project.dao.ProjectDao;
 import com.plm.project.service.ProjectService;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.plm.project.vo.ProjectQueryVo;
+import com.plm.project.vo.query.ProjectQueryVo;
 import java.util.List;
 /**
  * 项目表(Project)表服务实现类
  *
  * @author makejava
- * @since 2026-10-23 15:20:47
+ * @since 2026-10-25 15:40:18
  */
 @Service("projectService")
 public class ProjectServiceImpl extends ServiceImpl<ProjectDao,Project> implements ProjectService {

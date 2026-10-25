@@ -3,6 +3,8 @@ package com.plm.project.entity;
 import java.util.Date;
 import java.io.Serializable;
 
+import cn.dev33.satoken.json.SaJsonType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -15,11 +17,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
  */
 @Data
 @TableName(value = "sys_user")
-public class User implements Serializable {
+public class User implements Serializable, SaJsonType {
     private static final long serialVersionUID = -51828952244113293L;
     /**
      * 用户ID
      */
+    @TableId("user_id")
     private Long userId;
     /**
      * 部门ID
@@ -44,7 +47,7 @@ public class User implements Serializable {
     /**
      * 用户性别（0男 1女 2未知）
      */
-    private String sex;
+    private String sex="1";
     /**
      * 头像路径
      */
@@ -56,13 +59,13 @@ public class User implements Serializable {
     /**
      * 账号状态（0正常 1停用）
      */
-    private String status;
+    private String status="0";
     /**
      * 删除标志（0代表存在 2代表删除）
      * 逻辑删除
      */
     @TableLogic(value = "0",delval = "2")
-    private String delFlag;
+    private String delFlag="0";
     /**
      * 创建者
      */

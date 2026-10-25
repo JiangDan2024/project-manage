@@ -1,5 +1,7 @@
 package com.plm.project.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.plm.project.common.BizCodeEnume;
@@ -50,6 +52,9 @@ public class UserController {
     @GetMapping("info/{id}")
     public R<User> queryById(@PathVariable("id") Long id) {
         return R.ok(this.userService.info(id));
+        //测试sa-token的session在其他地方取出
+//        User user = StpUtil.getSession().getModel("user", User.class);
+//        return R.ok(user);
     }
 
     /**
@@ -97,6 +102,16 @@ public class UserController {
     public R<Boolean> authRoles(@RequestBody UserVo user) {
 
         return R.ok(this.userService.authRoles(user));
+    }
+
+    /**
+     * 修改状态
+     * @param user
+     * @return
+     */
+    @PutMapping("/changeStatus")
+    public R<Boolean> changeStatus(@RequestBody User user) {
+       return R.ok(this.userService.changeStatus(user));
     }
     /**
      * 删除数据

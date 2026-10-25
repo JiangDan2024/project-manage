@@ -1,16 +1,17 @@
 package com.plm.project.service;
 
 import com.plm.project.entity.Task;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.plm.project.vo.TaskQueryVo;
+import com.plm.project.vo.query.TaskQueryVo;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 /**
  * 任务表(Task)表服务接口
  *
  * @author makejava
- * @since 2026-10-23 15:20:54
+ * @since 2026-10-25 15:42:31
  */
 public interface TaskService extends IService<Task> {
     /**

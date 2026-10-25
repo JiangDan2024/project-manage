@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.*;
 import com.plm.project.common.R;
-import com.plm.project.vo.ProjectQueryVo;
+import com.plm.project.vo.query.ProjectQueryVo;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 项目表(Project)表控制层
  *
  * @author makejava
- * @since 2026-10-23 15:20:47
+ * @since 2026-10-25 15:40:18
  */
 @RestController
 @RequestMapping("project")

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.*;
 import com.plm.project.common.R;
-import com.plm.project.vo.RoleMenuQueryVo;
+import com.plm.project.vo.query.RoleMenuQueryVo;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 角色和菜单关联表(RoleMenu)表控制层
  *
  * @author makejava
- * @since 2026-10-23 15:21:38
+ * @since 2026-10-25 15:41:59
  */
 @RestController
 @RequestMapping("roleMenu")

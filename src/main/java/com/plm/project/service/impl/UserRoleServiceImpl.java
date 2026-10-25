@@ -7,16 +7,16 @@ import com.plm.project.service.UserRoleService;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.plm.project.vo.UserRoleQueryVo;
+import com.plm.project.vo.query.UserRoleQueryVo;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * 用户和角色关联表(UserRole)表服务实现类
  *
  * @author makejava
- * @since 2026-10-23 15:21:55
+ * @since 2026-10-25 15:42:46
  */
 @Service("userRoleService")
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao,UserRole> implements UserRoleService {
@@ -57,5 +57,51 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao,UserRole> imple
         List<UserRole> userRoles = this.list(new QueryWrapper<UserRole>().eq("user_id", userId));
         List<Long> roleIds = userRoles.stream().map(UserRole::getRoleId).toList();
         return roleIds;
+    }
+
+    @Override
+    public List<Long> getUserByRoleId(Long roleId) {
+        List<UserRole> roleUserList = this.list(new QueryWrapper<UserRole>().eq("role_id", roleId));
+        List<Long> list = roleUserList.stream().map(UserRole::getRoleId).toList();
+        return list;
+    }
+
+    @Override
+    public boolean batchRelation(Long roleId, List<Long> userIds) {
+        //删除之前的
+        boolean b = this.remove(new QueryWrapper<UserRole>().eq("role_id", roleId));
+        //重新保存
+        if (b){
+            if (userIds!=null&&userIds.size()>0){
+                List<UserRole> userRoleList = userIds.stream().map(u -> {
+                    UserRole userRole = new UserRole();
+                    userRole.setUserId(u);
+                    userRole.setRoleId(roleId);
+                    return userRole;
+                }).toList();
+                this.saveBatch(userRoleList);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteOne(UserRole userRole) {
+        QueryWrapper<UserRole> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userRole.getUserId());
+        queryWrapper.eq("role_id", userRole.getRoleId());
+
+        return this.remove(queryWrapper);
+    }
+
+    @Override
+    public Boolean cancelAll(Long roleId, List<Long> userIds) {
+        if (userIds!=null&&userIds.size()>0){
+            QueryWrapper<UserRole> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("role_id",roleId);
+            queryWrapper.in("user_id",userIds);
+            return this.remove(queryWrapper);
+        }
+        return false;
     }
 }

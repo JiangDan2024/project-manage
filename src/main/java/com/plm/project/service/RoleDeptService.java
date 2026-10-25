@@ -1,16 +1,18 @@
 package com.plm.project.service;
 
 import com.plm.project.entity.RoleDept;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.plm.project.vo.RoleDeptQueryVo;
+import com.plm.project.vo.RoleVo;
+import com.plm.project.vo.query.RoleDeptQueryVo;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 /**
  * 角色和部门关联表(RoleDept)表服务接口
  *
  * @author makejava
- * @since 2026-10-23 15:21:31
+ * @since 2026-10-25 15:41:48
  */
 public interface RoleDeptService extends IService<RoleDept> {
     /**
@@ -52,4 +54,10 @@ public interface RoleDeptService extends IService<RoleDept> {
      * @return 是否成功
      */
     boolean deleteByIds(List<Long> id);
+
+    List<Long> getIdByRoleId(Long roleId);
+
+    void editByRoleId(RoleVo role);
+
+    void deleteByRoleIds(List<Long> ids);
 }

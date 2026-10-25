@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.web.bind.annotation.*;
 import com.plm.project.common.R;
-import com.plm.project.vo.TableConfigQueryVo;
+import com.plm.project.vo.query.TableConfigQueryVo;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 用户表格列个性化配置(TableConfig)表控制层
  *
  * @author makejava
- * @since 2026-10-23 15:21:44
+ * @since 2026-10-25 15:42:15
  */
 @RestController
 @RequestMapping("tableConfig")

@@ -3,7 +3,7 @@ package com.plm.project.service;
 import com.plm.project.entity.UserRole;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.plm.project.vo.UserRoleQueryVo;
+import com.plm.project.vo.query.UserRoleQueryVo;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 /**
@@ -56,4 +56,12 @@ public interface UserRoleService extends IService<UserRole> {
     void deleteByUserIds(List<Long> userIds);
 
     List<Long> getRolesByUserId(Long userId);
+
+    List<Long> getUserByRoleId(Long roleId);
+
+    boolean batchRelation(Long roleId, List<Long> userIds);
+
+    boolean deleteOne(UserRole userRole);
+
+    Boolean cancelAll(Long roleId, List<Long> userIds);
 }

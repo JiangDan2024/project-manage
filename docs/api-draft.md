@@ -71,7 +71,7 @@ public class BaseQueryReq {
 ### 接口清单
 | 模块 | 接口 | 方法 | 用途 | 状态 |
 
-### 1.用户模块
+### 1.用户模块--2026.10.23一天
 
 #### 接口详情
 #### 1. 查询用户列表 user/list
@@ -648,9 +648,9 @@ http://localhost/system/user/deptTree?deptName=研发部&status=0
 | 字段名 | 字段说明 | 字段类型 |
 | id | 部门ID | Long |
 | label | 部门名称 | String |
-| children | 子部门列表（树形结构） | Array |
+| children | 子部门列表（树形结构） | Array |--2026.10.23一天--2026.10.23一天
 
-### 2.认证模块
+### 2.认证模块--2026.10.23~2026.10.25三天
 
 #### 1. 用户登录 auth/login
 
@@ -669,14 +669,14 @@ JSON
 **请求示例**
 ```json
 {
-  "userName": "admin",
+  "loginacct": "admin",
   "password": "admin123"
 }
 ```
 
 **请求参数说明**
 | 字段名 | 字段说明 | 字段类型 | 是否必填 |
-| userName | 用户名 | String | Y |
+| loginacct | 用户名/手机号 | String | Y |
 | password | 密码 | String | Y |
 
 **响应示例**
@@ -685,7 +685,7 @@ JSON
   "code": 200,
   "msg": "操作成功",
   "data": {
-    "token": "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6Im..."//成功返回token，失败返回error
+    "token": "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6Im..."//成功返回token，失败返回error，也可能什么也不返回cookie自动注入，如果不行返回token对象
   }
 }
 ```
@@ -709,8 +709,7 @@ JSON
 {
   "userName": "zhangsan",
   "password": "Password123!",
-  "nickName": "张三",
-  "phoneNumber": "13800138000"
+  "phoneNumber": "187XXXX1882"
 }
 ```
 
@@ -728,7 +727,7 @@ JSON
 }
 ```
 
-#### 3.退出登录 auth/logout (还没思路)
+#### 3.退出登录 auth/logout 
 
 #### 4.查看用户信息 auth/info
 **接口说明**
@@ -855,12 +854,10 @@ JSON
     "roleSort":3,
     "status":"0",
     "menuIds":[1,100,1000],
-    "deptIds":[],
-    "menuCheckStrictly":true,
-    "deptCheckStrictly":true
+    "deptIds":[]
 }
 ```
-
+//roleName和roleKey不能重名
 **请求参数说明**
 | 字段名 | 字段说明 | 字段类型 | 是否必填 |
 | roleName | 角色名 | String | Y |

@@ -4,16 +4,16 @@ import com.plm.project.entity.Menu;
 import com.plm.project.dao.MenuDao;
 import com.plm.project.service.MenuService;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.plm.project.vo.MenuQueryVo;
+import com.plm.project.vo.query.MenuQueryVo;
 import java.util.List;
 /**
  * 菜单表(Menu)表服务实现类
  *
  * @author makejava
- * @since 2026-10-23 15:21:17
+ * @since 2026-10-25 15:41:14
  */
 @Service("menuService")
 public class MenuServiceImpl extends ServiceImpl<MenuDao,Menu> implements MenuService {

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.plm.project.vo.query.UserQueryVo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +53,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         BeanUtils.copyProperties(user,vo);
         //查出对应的role信息
         List<Long> roleIds = userRoleService.getRolesByUserId(id);
-        List<Role> roleList = roleService.list(new QueryWrapper<Role>().in("role_id", roleIds));
+        List<Role> roleList = new ArrayList<>();
+        if (roleIds != null && !roleIds.isEmpty()) {
+            roleList = roleService.list(new QueryWrapper<Role>().in("role_id", roleIds));
+        }
         if(roleList!=null&&roleList.size()>0){
             List<RoleVo> roleVos = roleList.stream().map(r -> {
                 RoleVo roleVo = new RoleVo();
@@ -82,6 +86,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         //查出用户信息
         IPage<User> userIPage = this.page(page,wrapper);
 
+        IPage<UserVo> convert = getConvert(userIPage);
+        return convert;
+    }
+
+    private IPage<UserVo> getConvert(IPage<User> userIPage) {
         IPage<UserVo> convert = userIPage.convert(u -> {
             UserVo userVo = new UserVo();
             BeanUtils.copyProperties(u, userVo);
@@ -173,22 +182,54 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
     }
 
     @Override
+    public Boolean changeStatus(User user) {
+        //查出用户信息
+        User byId = this.getById(user.getUserId());
+        byId.setStatus(user.getStatus());
+        return this.updateById(byId);
+    }
+
+    @Override
+    public IPage<UserVo> allocatedList(List<Long> userIds, Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page(pageNum, pageSize);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
+        queryWrapper.eq("del_flag",0);
+        if (userIds!=null&&userIds.size()>0) {
+            queryWrapper.in("user_id",userIds);
+        }
+        IPage<User> userIPage = this.page(page,queryWrapper);
+        IPage<UserVo> convert = getConvert(userIPage);
+        return convert;
+    }
+
+    @Override
+    public IPage<UserVo> unallocatedList(List<Long> userIds, Integer pageNum, Integer pageSize) {
+        Page<User> page = new Page(pageNum, pageSize);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
+        queryWrapper.eq("del_flag",0);
+        if (userIds!=null&&userIds.size()>0) {
+            queryWrapper.notIn("user_id",userIds);
+        }
+        IPage<User> userIPage = this.page(page,queryWrapper);
+        IPage<UserVo> convert = getConvert(userIPage);
+        return convert;
+    }
+
+    @Override
     public IPage<RoleVo> getAuthRole(UserQueryVo queryVo) {
         //分页查询所有角色
         RoleQueryVo roleQueryVo = new RoleQueryVo();
         roleQueryVo.setPageNum(queryVo.getPageNum());
         roleQueryVo.setPageSize(queryVo.getPageSize());
-        IPage<Role> roleIPage = roleService.queryByPage(roleQueryVo);
+        IPage<RoleVo> roleIPage = roleService.queryByPage(roleQueryVo);
         //查询关联的角色id
         List<Long> roleIds = userRoleService.getRolesByUserId(queryVo.getUserId());
         //遍历或者find，把关联角色置为flag=true，并封装成roleVo
         IPage<RoleVo> roleVoIPage = roleIPage.convert(r -> {
-            RoleVo roleVo = new RoleVo();
-            BeanUtils.copyProperties(r, roleVo);
             if (roleIds.contains(r.getRoleId())) {
-                roleVo.setFlag(true);
+                r.setFlag(true);
             }
-            return roleVo;
+            return r;
         });
         return roleVoIPage;
     }

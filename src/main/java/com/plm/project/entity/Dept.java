@@ -2,6 +2,8 @@ package com.plm.project.entity;
 
 import java.util.Date;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -18,6 +20,7 @@ public class Dept implements Serializable {
     /**
      * 部门id
      */
+    @TableId("dept_id")
     private Long deptId;
     /**
      * 父部门id
