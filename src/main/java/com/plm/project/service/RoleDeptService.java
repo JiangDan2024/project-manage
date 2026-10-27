@@ -6,7 +6,6 @@ import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.query.RoleDeptQueryVo;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * 角色和部门关联表(RoleDept)表服务接口

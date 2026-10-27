@@ -67,6 +67,13 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao,UserRole> imple
     }
 
     @Override
+    public List<UserRole> getUserByRoleIds(List<Long> roleIds) {
+        //todo 是否再过滤一下用户是不是未删除和启用的
+        List<UserRole> userRoles = this.list(new QueryWrapper<UserRole>().eq("role_id", roleIds));
+        return userRoles;
+    }
+
+    @Override
     public boolean batchRelation(Long roleId, List<Long> userIds) {
         //删除之前的
         boolean b = this.remove(new QueryWrapper<UserRole>().eq("role_id", roleId));

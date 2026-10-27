@@ -2,6 +2,7 @@ package com.plm.project.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.plm.project.common.UserContext;
 import com.plm.project.entity.*;
 import com.plm.project.dao.RoleDao;
 import com.plm.project.exception.RoleException;
@@ -28,8 +29,6 @@ import java.util.List;
  */
 @Service("roleService")
 public class RoleServiceImpl extends ServiceImpl<RoleDao,Role> implements RoleService {
-    private final static User user = StpUtil.getSession().getModel("user", User.class);
-
     @Autowired
     RoleDeptService roleDeptService;
 
@@ -88,6 +87,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao,Role> implements RoleSe
         checkRoleKeyUnique(role.getRoleKey());
         //新增角色
         Role roleEntity = new Role();
+        User user = UserContext.get();
         roleEntity.setCreateBy(user.getUserId().toString());
         roleEntity.setUpdateBy(user.getUserId().toString());
         roleEntity.setCreateTime(new Date());

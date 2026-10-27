@@ -1,6 +1,5 @@
 package com.plm.project.controller;
 
-import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.plm.project.common.BizCodeEnume;

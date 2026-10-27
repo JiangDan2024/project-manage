@@ -1,12 +1,11 @@
 package com.plm.project.controller;
 
+import com.plm.project.dto.DeleteCheckResultDto;
 import com.plm.project.entity.Dept;
 import com.plm.project.service.DeptService;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.plm.project.vo.DeptVo;
 import org.springframework.web.bind.annotation.*;
 import com.plm.project.common.R;
-import com.plm.project.vo.query.DeptQueryVo;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +26,34 @@ public class DeptController {
     private DeptService deptService;
 
     /**
-     * 分页查询
+     * 查询树目录
      *
      * @param dept 筛选条件
      * @return 查询结果
      */
+    @GetMapping("/treeList")
+    public R<List<DeptVo>> getTreeList(Dept dept) {
+        return R.ok(this.deptService.getTreeList(dept));
+    }
+
+    /**
+     * 平铺查询list
+     * @param dept
+     * @return
+     */
     @GetMapping("/list")
-    public R<IPage<Dept>> queryByPage(DeptQueryVo dept) {
-        return R.ok(this.deptService.queryByPage(dept));
+    public R<List<Dept>> list(Dept dept) {
+        return R.ok(this.deptService.getList(dept));
+    }
+
+    /**
+     * 查询除当前节点以外的其他节点，不使用树目录（但为什么呢）
+     * @param deptId
+     * @return
+     */
+    @GetMapping("/list/exclude/{deptId}")
+    public R<List<DeptVo>> queryByExcludeNoed(@PathVariable("deptId") Long deptId) {
+        return R.ok(this.deptService.queryByExcludeNoed(deptId));
     }
 
     /**
@@ -66,10 +85,15 @@ public class DeptController {
      * @return 编辑结果
      */
     @PutMapping("/edit")
-    public R edit(@RequestBody Dept dept) {
+    public R<Boolean> edit(@RequestBody Dept dept) {
         return R.ok(this.deptService.edit(dept));
     }
 
+
+    @PutMapping("/save/sort")
+    public R<Boolean> saveSort(@RequestBody List<Long> deptIds,@RequestBody List<Integer> sorts) {
+        return R.ok(this.deptService.saveSort(deptIds,sorts));
+    }
     /**
      * 删除数据
      *
@@ -77,7 +101,7 @@ public class DeptController {
      * @return 删除是否成功
      */
     @DeleteMapping("delete")
-    public R deleteByIds(@RequestParam("ids") List<Long> ids) {
+    public R<DeleteCheckResultDto> deleteByIds(@RequestParam("ids") List<Long> ids) {
         return R.ok(this.deptService.deleteByIds(ids));
     }
 

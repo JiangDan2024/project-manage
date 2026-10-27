@@ -4,6 +4,7 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -37,7 +38,7 @@ public class Dept implements Serializable {
     /**
      * 显示顺序
      */
-    private Integer orderNum;
+    private Integer orderNum=0;
     /**
      * 负责人
      */
@@ -53,11 +54,12 @@ public class Dept implements Serializable {
     /**
      * 部门状态（0正常 1停用）
      */
-    private String status;
+    private String status="0";
     /**
      * 删除标志（0代表存在 2代表删除）
      */
-    private String delFlag;
+    @TableLogic(value = "0",delval = "2")
+    private String delFlag="0";
     /**
      * 创建者
      */

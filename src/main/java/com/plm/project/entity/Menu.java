@@ -2,6 +2,11 @@ package com.plm.project.entity;
 
 import java.util.Date;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -18,22 +23,27 @@ public class Menu implements Serializable {
     /**
      * 菜单ID
      */
+    @TableId("menu_id")
     private Long menuId;
     /**
      * 菜单名称
      */
+    @NotEmpty(message = "菜单名称不为空")
     private String menuName;
     /**
      * 父菜单ID
      */
+    @NotNull(message = "父类菜单不为空")
     private Long parentId;
     /**
      * 显示顺序
      */
-    private Integer orderNum;
+    @NotNull(message = "显示顺序不为空")
+    private Integer orderNum=0;
     /**
      * 请求地址
      */
+    @NotEmpty(message = "请求地址不为空")
     private String url;
     /**
      * 打开方式（menuItem页签 menuBlank新窗口）
@@ -46,7 +56,7 @@ public class Menu implements Serializable {
     /**
      * 菜单状态（0显示 1隐藏）
      */
-    private String visible;
+    private String visible="0";
     /**
      * 权限标识
      */

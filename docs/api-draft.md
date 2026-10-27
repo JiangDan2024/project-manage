@@ -9,7 +9,7 @@
 {
   "code": 200,
   "msg": "ok",
-  "data": {} //详细数据
+  "data": {} 
 }
 ```
 
@@ -18,7 +18,7 @@
 {
   "code": 40001,
   "msg": "非法字段",
-  "data": {}//errors
+  "data": {}
 }
 ```
 
@@ -94,7 +94,7 @@ JSON
     "pageNum":1,
     "pageSize":10,
     "keyword":"zhangsan",
-    "phoneNumber":187****1882,
+    "phoneNumber":"187****1882",
     "status":0
 }
 ```
@@ -112,54 +112,52 @@ JSON
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {
-    [
-        {
-            "userId": 1,
-            "admin": true,
-            "avatar": "",
-            "createBy": "admin",
-            "createTime": "2026-09-15 09:30:58",
-            "delFlag": "0",
-            "dept": {
-                "ancestors": null,
-                "children": [],
-                "createBy": null,
-                "createTime": null,
-                "delFlag": null,
-                "deptId": 103,
-                "deptName": "研发部门",
-                "email": null,
-                "leader": "若依",
-                "orderNum": null,
-                "parentId": null,
-                "parentName": null,
-                "phone": null,
-                "remark": null,
-                "status": null,
-                "updateBy": null,
-                "updateTime": null
-            },
-            "deptId": 103,
-            "email": "ry@163.com",
-            "loginDate": "2026-10-22 15:48:13",
-            "loginIp": "127.0.0.1",
-            "nickName": "若依",
-            "phonenumber": "15888888888",
-            "postIds": null,
-            "pwdUpdateDate": null,
-            "remark": "管理员",
-            "roleId": null,
-            "roleIds": null,
-            "roles": [],
-            "sex": "1",
-            "status": "0",
-            "updateBy": null,
-            "updateTime": null,
-            "userName": "admin"
-        }
-    ]
-  }
+  "data": [
+    {
+      "userId": 1,
+      "admin": true,
+      "avatar": "",
+      "createBy": "admin",
+      "createTime": "2026-09-15 09:30:58",
+      "delFlag": "0",
+      "dept": {
+        "ancestors": null,
+        "children": [],
+        "createBy": null,
+        "createTime": null,
+        "delFlag": null,
+        "deptId": 103,
+        "deptName": "研发部门",
+        "email": null,
+        "leader": "若依",
+        "orderNum": null,
+        "parentId": null,
+        "parentName": null,
+        "phone": null,
+        "remark": null,
+        "status": null,
+        "updateBy": null,
+        "updateTime": null
+      },
+      "deptId": 103,
+      "email": "ry@163.com",
+      "loginDate": "2026-10-22 15:48:13",
+      "loginIp": "127.0.0.1",
+      "nickName": "若依",
+      "phonenumber": "15888888888",
+      "postIds": null,
+      "pwdUpdateDate": null,
+      "remark": "管理员",
+      "roleId": null,
+      "roleIds": null,
+      "roles": [],
+      "sex": "1",
+      "status": "0",
+      "updateBy": null,
+      "updateTime": null,
+      "userName": "admin"
+    }
+  ]
 }
 ```
 
@@ -209,7 +207,7 @@ JSON
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {}//成功则没有data，失败返回errors
+  "data": {}
 }
 ```
 
@@ -267,7 +265,7 @@ userId (必填) 及其他需要修改的字段
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {}//成功则没有data，失败返回errors
+  "data": {}
 }
 ```
 
@@ -347,7 +345,6 @@ long/int
         }
       ]
   }
-  //失败返回errors
 }
 ```
 
@@ -378,7 +375,7 @@ long[]
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {}//成功无data，失败返回errors
+  "data": {}
 }
 ```
 
@@ -415,116 +412,117 @@ json
   "msg": "操作成功",
   "data": {
     "roles": [
-        {
-            "roleId": 2,
-            "admin": false,
-            "createBy": null,
-            "createTime": "2026-09-15 09:30:58",
-            "dataScope": "2",
-            "delFlag": "0",
-            "deptCheckStrictly": true,
-            "deptIds": null,
-            "flag": true,
-            "menuCheckStrictly": true,
-            "menuIds": null,
-            "permissions": null,
-            "remark": "普通角色",
-            "roleKey": "common",
-            "roleName": "普通角色",
-            "roleSort": 2,
-            "status": "0",
-            "updateBy": null,
-            "updateTime": null
-        },
-        {
-            "roleId": 100,
-            "admin": false,
-            "createBy": null,
-            "createTime": "2026-10-22 17:59:01",
-            "dataScope": "1",
-            "delFlag": "0",
-            "deptCheckStrictly": true,
-            "deptIds": null,
-            "flag": false,
-            "menuCheckStrictly": true,
-            "menuIds": null,
-            "permissions": null,
-            "remark": null,
-            "roleKey": "test",
-            "roleName": "测试",
-            "roleSort": 3,
-            "status": "0",
-            "updateBy": null,
-            "updateTime": null
-        }
+      {
+        "roleId": 2,
+        "admin": false,
+        "createBy": null,
+        "createTime": "2026-09-15 09:30:58",
+        "dataScope": "2",
+        "delFlag": "0",
+        "deptCheckStrictly": true,
+        "deptIds": null,
+        "flag": true,
+        "menuCheckStrictly": true,
+        "menuIds": null,
+        "permissions": null,
+        "remark": "普通角色",
+        "roleKey": "common",
+        "roleName": "普通角色",
+        "roleSort": 2,
+        "status": "0",
+        "updateBy": null,
+        "updateTime": null
+      },
+      {
+        "roleId": 100,
+        "admin": false,
+        "createBy": null,
+        "createTime": "2026-10-22 17:59:01",
+        "dataScope": "1",
+        "delFlag": "0",
+        "deptCheckStrictly": true,
+        "deptIds": null,
+        "flag": false,
+        "menuCheckStrictly": true,
+        "menuIds": null,
+        "permissions": null,
+        "remark": null,
+        "roleKey": "test",
+        "roleName": "测试",
+        "roleSort": 3,
+        "status": "0",
+        "updateBy": null,
+        "updateTime": null
+      }
     ],
     "user": {
-        "userId": 2,
-        "admin": false,
-        "avatar": "",
-        "createBy": "admin",
-        "createTime": "2026-09-15 09:30:58",
-        "delFlag": "0",
-        "dept": {
-            "ancestors": "0,100,101",
-            "children": [],
-            "createBy": null,
-            "createTime": null,
-            "delFlag": null,
-            "deptId": 105,
-            "deptName": "测试部门",
-            "email": null,
-            "leader": "若依",
-            "orderNum": 3,
-            "parentId": 101,
-            "parentName": null,
-            "phone": null,
-            "remark": null,
-            "status": "0",
-            "updateBy": null,
-            "updateTime": null
-        },
+      "userId": 2,
+      "admin": false,
+      "avatar": "",
+      "createBy": "admin",
+      "createTime": "2026-09-15 09:30:58",
+      "delFlag": "0",
+      "dept": {
+        "ancestors": "0,100,101",
+        "children": [],
+        "createBy": null,
+        "createTime": null,
+        "delFlag": null,
         "deptId": 105,
-        "email": "ry@qq.com",
-        "loginDate": "2026-09-15 09:30:58",
-        "loginIp": "127.0.0.1",
-        "nickName": "若依",
-        "phonenumber": "15666666666",
-        "postIds": null,
-        "pwdUpdateDate": "2026-09-15 09:30:58",
-        "remark": "测试员",
-        "roleId": null,
-        "roleIds": null,
-        "roles": [
-            {
-                "roleId": 2,
-                "admin": false,
-                "createBy": null,
-                "createTime": null,
-                "dataScope": "2",
-                "delFlag": null,
-                "deptCheckStrictly": false,
-                "deptIds": null,
-                "flag": false,
-                "menuCheckStrictly": false,
-                "menuIds": null,
-                "permissions": null,
-                "remark": null,
-                "roleKey": "common",
-                "roleName": "普通角色",
-                "roleSort": 2,
-                "status": "0",
-                "updateBy": null,
-                "updateTime": null
-            }
-        ],
-        "sex": "1",
+        "deptName": "测试部门",
+        "email": null,
+        "leader": "若依",
+        "orderNum": 3,
+        "parentId": 101,
+        "parentName": null,
+        "phone": null,
+        "remark": null,
         "status": "0",
-        "updateBy": "",
-        "updateTime": null,
-        "userName": "ry"
+        "updateBy": null,
+        "updateTime": null
+      },
+      "deptId": 105,
+      "email": "ry@qq.com",
+      "loginDate": "2026-09-15 09:30:58",
+      "loginIp": "127.0.0.1",
+      "nickName": "若依",
+      "phonenumber": "15666666666",
+      "postIds": null,
+      "pwdUpdateDate": "2026-09-15 09:30:58",
+      "remark": "测试员",
+      "roleId": null,
+      "roleIds": null,
+      "roles": [
+        {
+          "roleId": 2,
+          "admin": false,
+          "createBy": null,
+          "createTime": null,
+          "dataScope": "2",
+          "delFlag": null,
+          "deptCheckStrictly": false,
+          "deptIds": null,
+          "flag": false,
+          "menuCheckStrictly": false,
+          "menuIds": null,
+          "permissions": null,
+          "remark": null,
+          "roleKey": "common",
+          "roleName": "普通角色",
+          "roleSort": 2,
+          "status": "0",
+          "updateBy": null,
+          "updateTime": null
+        }
+      ],
+      "sex": "1",
+      "status": "0",
+      "updateBy": "",
+      "updateTime": null,
+      "userName": "ry"
     }
   }
+}
 ```
 
 #### 7. 为用户授权角色 user/authRole
@@ -557,7 +555,7 @@ JSON
 {
     "msg":"操作成功",
     "code":200,
-    "data":{}//成功时无数据，失败返回error
+    "data":{}
 }
 ```
 
@@ -591,7 +589,7 @@ JSON
 {
     "msg":"操作成功",
     "code":200,
-    "data":{}//成功时无数据，失败返回error
+    "data":{}
 }
 ```
 
@@ -685,11 +683,11 @@ JSON
   "code": 200,
   "msg": "操作成功",
   "data": {
-    "token": "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6Im..."//成功返回token，失败返回error，也可能什么也不返回cookie自动注入，如果不行返回token对象
+    "token": "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6Im..."
   }
 }
 ```
-
+//成功返回token，失败返回error，也可能什么也不返回cookie自动注入，如果不行返回token对象
 #### 2. 用户注册 auth/register
 
 **接口说明**
@@ -723,7 +721,7 @@ JSON
 {
   "code": 200,
   "msg": "注册成功，请联系管理员为您分配权限",
-  "data": {}//成功无数据，失败error
+  "data": {}
 }
 ```
 
@@ -770,7 +768,7 @@ null
 }
 ```
 
-### 3.角色模块
+### 3.角色模块--2026.10.25-2026.27（26休息）
 
 #### 1. 查询角色列表
 **接口说明**
@@ -828,7 +826,7 @@ JSON
             "status": "0",
             "updateBy": null,
             "updateTime": null
-        },
+        }
   ]
 }
 ```
@@ -874,7 +872,7 @@ JSON
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {}//成功则没有data，失败返回errors
+  "data": {}
 }
 ```
 
@@ -934,7 +932,7 @@ JSON
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {}//成功则没有data，失败返回errors
+  "data": {}
 }
 ```
 
@@ -969,7 +967,7 @@ JSON
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {}//成功则没有data，失败返回errors
+  "data": {}
 }
 ```
 
@@ -1011,19 +1009,16 @@ long/int
                             "id": 1000,
                             "label": "用户查询"
                         }
-                        ....
                     ],
                     "disabled": false,
                     "id": 100,
                     "label": "用户管理"
                 }
-                .....
             ]
-        },
-        ....
+        }
     ],
-    "checkedKeys":[1,2,3...]
-  }//失败返回errors
+    "checkedKeys":[1,2,3]
+  }
 }
 ```
 
@@ -1054,7 +1049,7 @@ long[]
 {
   "code": 200,
   "msg": "操作成功",
-  "data": {}//成功无data，失败返回errors
+  "data": {}
 }
 ```
 
@@ -1129,8 +1124,7 @@ pageNum=1&pageSize=10&roleId=2
             "updateBy": null,
             "updateTime": null,
             "userName": "ry"
-        },
-        ....
+        }
   ]
 }
 ```
@@ -1206,8 +1200,7 @@ pageNum=1&pageSize=10&roleId=2
             "updateBy": null,
             "updateTime": null,
             "userName": "ry"
-        },
-        ....
+        }
   ]
 }
 ```
@@ -1368,9 +1361,9 @@ http://localhost/system/role/deptTree/2
 **响应参数说明**
 | 字段名 | 字段说明 | 字段类型 |
 | checkedKeys | 该角色已勾选/分配的部门ID数组 | Array |
-| depts | 全量部门树形结构数据（包含 id, label, children）| Array |
+| depts | 全量部门树形结构数据（包含 id, label, children）| Array |--202--
 
-### 4. 部门模块
+### 4. 部门模块--2026.10.27一天
 
 #### 1. 查询部门列表
 **接口说明**
@@ -1413,8 +1406,7 @@ http://localhost/system/dept/list?deptName=研发部&status=0
       "delFlag": "0",
       "createBy": "admin",
       "createTime": "2026-09-15 09:30:58"
-    },
-    ....
+    }
   ]
 }
 ```
@@ -1666,7 +1658,7 @@ http://localhost/system/dept/101
 }
 ```
 
-### 5. 菜单模块
+### 5. 菜单模块--2026.10.27一天
 
 #### 1. 查询菜单列表
 **接口说明**
@@ -2003,7 +1995,7 @@ http://localhost/system/menu/delete/100
 }
 ```
 
-## 三、变更历史
+## 三、变更历史--2026.10.27-？
 
 ### 1.变更历史记录
 
@@ -2099,8 +2091,7 @@ JSON
         "source": "MANUAL",
         "remark": "xxx",
         "modifyTime": "0"
-    },
-    ....
+    }
   ]
 }
 ```
@@ -2132,7 +2123,6 @@ JSON
     "createTime":"2026-09-10 10:10",
     "updateTime":"2026-09-10 10:10"
   }
-  ......
 ]
 ```
 
@@ -2179,7 +2169,6 @@ JSON
     "createTime":"2026-09-10 10:10",
     "updateTime":"2026-09-10 10:10"
   }
-  ......
 ]
 ```
 
@@ -2244,7 +2233,6 @@ JSON
       "createTime":"2026-09-10 10:10",
       "updateTime":"2026-09-10 10:10"
     }
-    ......
   ]
 }
 ```

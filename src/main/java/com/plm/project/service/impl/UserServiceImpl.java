@@ -3,16 +3,14 @@ package com.plm.project.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.plm.project.dao.RoleDao;
 import com.plm.project.entity.Dept;
 import com.plm.project.entity.Role;
 import com.plm.project.entity.User;
 import com.plm.project.dao.UserDao;
 import com.plm.project.entity.UserRole;
 import com.plm.project.exception.LoginNameExistException;
-import com.plm.project.service.DeptService;
-import com.plm.project.service.RoleService;
-import com.plm.project.service.UserRoleService;
-import com.plm.project.service.UserService;
+import com.plm.project.service.*;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
 import com.plm.project.vo.query.RoleQueryVo;
@@ -43,7 +41,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
     UserRoleService userRoleService;
 
     @Autowired
-    RoleService roleService;
+    private RoleDao roleDao;
+
+    @Autowired
+    private RoleDeptService roleDeptService;
+
+    @Autowired
+    private RoleMenuService roleMenuService;
 
     @Override
     public UserVo info(Long id) {
@@ -55,7 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         List<Long> roleIds = userRoleService.getRolesByUserId(id);
         List<Role> roleList = new ArrayList<>();
         if (roleIds != null && !roleIds.isEmpty()) {
-            roleList = roleService.list(new QueryWrapper<Role>().in("role_id", roleIds));
+            roleList = roleDao.selectList(new QueryWrapper<Role>().in("role_id", roleIds));
         }
         if(roleList!=null&&roleList.size()>0){
             List<RoleVo> roleVos = roleList.stream().map(r -> {
@@ -221,7 +225,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         RoleQueryVo roleQueryVo = new RoleQueryVo();
         roleQueryVo.setPageNum(queryVo.getPageNum());
         roleQueryVo.setPageSize(queryVo.getPageSize());
-        IPage<RoleVo> roleIPage = roleService.queryByPage(roleQueryVo);
+        IPage<RoleVo> roleIPage = queryByPage(roleQueryVo);
         //查询关联的角色id
         List<Long> roleIds = userRoleService.getRolesByUserId(queryVo.getUserId());
         //遍历或者find，把关联角色置为flag=true，并封装成roleVo
@@ -230,6 +234,31 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
                 r.setFlag(true);
             }
             return r;
+        });
+        return roleVoIPage;
+    }
+
+    public IPage<RoleVo> queryByPage(RoleQueryVo role) {
+        Page page = new Page(role.getPageNum(),role.getPageSize());
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status",role.getStatus());
+        if (StringUtils.isNotEmpty(role.getKeyword())){
+            queryWrapper.and(q->{
+                q.like("role_name",role.getKeyword())
+                        .or().like("role_key",role.getKeyword());
+            });
+        }
+        IPage<Role> roleIPage = roleDao.selectPage(page,queryWrapper);
+        IPage<RoleVo> roleVoIPage = roleIPage.convert(r -> {
+            RoleVo roleVo = new RoleVo();
+            BeanUtils.copyProperties(role, roleVo);
+            //获取关联的部门id
+            List<Long> deptIds = roleDeptService.getIdByRoleId(r.getRoleId());
+            roleVo.setDeptIds(deptIds);
+            //获取关联的目录id
+            List<Long> menuIds = roleMenuService.getIdByRoleId(r.getRoleId());
+            roleVo.setMenuIds(menuIds);
+            return roleVo;
         });
         return roleVoIPage;
     }

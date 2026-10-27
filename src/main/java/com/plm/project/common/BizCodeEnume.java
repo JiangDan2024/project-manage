@@ -8,6 +8,7 @@ public enum BizCodeEnume {
     PHONE_EXIST_EXCEPTION(15002,"手机号已存在"),
     NOT_REGISTER_EXCEPTION(15003,"该账号未注册"),
     PASSWORD_NOT_MATCH_EXCEPTION(15004,"密码输入错误"),
+    MENU_EXCEPTION(16001,"菜单校验异常"),
     UNKNOW_EXCEPTION(10000,"系统未知异常"),
     VAILD_EXCEPTION(10001,"参数格式校验失败");
 

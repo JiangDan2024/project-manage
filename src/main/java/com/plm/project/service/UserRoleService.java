@@ -59,6 +59,8 @@ public interface UserRoleService extends IService<UserRole> {
 
     List<Long> getUserByRoleId(Long roleId);
 
+    List<UserRole> getUserByRoleIds(List<Long> roleIds);
+
     boolean batchRelation(Long roleId, List<Long> userIds);
 
     boolean deleteOne(UserRole userRole);
