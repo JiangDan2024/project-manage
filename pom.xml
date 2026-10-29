@@ -106,6 +106,19 @@
             <artifactId>sa-token-jackson</artifactId>
             <version>1.46.0</version>
         </dependency>
+        <!--AOP依赖引入-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>3.5.16</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--引入java-object-diff用于比较变更前后的不同-->
+        <dependency>
+            <groupId>de.danielbechler</groupId>
+            <artifactId>java-object-diff</artifactId>
+            <version>0.95</version>
+        </dependency>
     </dependencies>
 
     <build>

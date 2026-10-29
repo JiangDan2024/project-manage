@@ -14,6 +14,7 @@ import com.plm.project.service.*;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
 import com.plm.project.vo.query.RoleQueryVo;
+import com.plm.project.vo.snapshot.UserSnapshotVo;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.plm.project.vo.query.UserQueryVo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -261,5 +263,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
             return roleVo;
         });
         return roleVoIPage;
+    }
+
+    @Override
+    public UserSnapshotVo getSnapshotById(Serializable id) {
+        UserSnapshotVo snapshot = new UserSnapshotVo();
+        //查询user信息
+        //查询user和role关联表信息
+        return snapshot;
     }
 }

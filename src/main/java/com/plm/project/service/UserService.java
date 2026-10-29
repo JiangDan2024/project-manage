@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.spring.service.IService;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
 import com.plm.project.vo.query.UserQueryVo;
+import com.plm.project.vo.snapshot.UserSnapshotVo;
+
 import java.util.List;
 /**
  * 用户信息表(User)表服务接口
@@ -14,7 +16,7 @@ import java.util.List;
  * @author makejava
  * @since 2026-10-23 14:42:10
  */
-public interface UserService extends IService<User> {
+public interface UserService extends IService<User>,EntiyService<UserSnapshotVo>{
     /**
      * 通过ID查询单条数据
      *

@@ -23,7 +23,7 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
-
+    
     @PostMapping("/register")
     public R register(@Valid @RequestBody UserRegisterVo vo) {
         //校验注册信息，不为空，格式正确，校验通过执行注册方法

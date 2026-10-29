@@ -2,6 +2,7 @@ package com.plm.project.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.plm.project.common.BizCodeEnume;
+import com.plm.project.common.annotation.Change;
 import com.plm.project.entity.User;
 import com.plm.project.exception.LoginNameExistException;
 import com.plm.project.service.UserService;
@@ -75,6 +76,7 @@ public class UserController {
      * @param user 实体
      * @return 编辑结果
      */
+    @Change(entity = User.class)
     @PutMapping("/edit")
     public R edit(@RequestBody UserVo user) {
         return R.ok(this.userService.edit(user));

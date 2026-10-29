@@ -6,8 +6,10 @@ import java.io.Serializable;
 import cn.dev33.satoken.json.SaJsonType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.plm.project.common.annotation.BizId;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.ToString;
 
 /**
  * 用户信息表(User)实体类
@@ -15,6 +17,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author makejava
  * @since 2026-10-23 14:36:21
  */
+@ToString
 @Data
 @TableName(value = "sys_user")
 public class User implements Serializable, SaJsonType {
@@ -22,6 +25,7 @@ public class User implements Serializable, SaJsonType {
     /**
      * 用户ID
      */
+    @BizId
     @TableId("user_id")
     private Long userId;
     /**

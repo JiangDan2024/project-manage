@@ -1997,14 +1997,14 @@ http://localhost/system/menu/delete/100
 
 ## 三、变更历史--2026.10.27-？
 
-### 1.变更历史记录
+### 1.变更历史记录（结合AOP）
 
 #### 1. 批量新增历史记录
 **接口说明**
 - 接口功能
 当业务表编辑时，自动触发新增历史记录(后端自动触发，无需前端)
 - 接口请求地址
-<http://localhost/system/history/add>
+<http://localhost/system/changeLog/add>
 
 - 请求方式
 POST
