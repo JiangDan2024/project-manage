@@ -1,13 +1,17 @@
 package com.plm.project.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.plm.project.common.AuditEntityType;
 import com.plm.project.common.BizCodeEnume;
 import com.plm.project.common.annotation.Change;
+import com.plm.project.common.annotation.DeleteChange;
+import com.plm.project.common.annotation.QueryChange;
 import com.plm.project.entity.User;
 import com.plm.project.exception.LoginNameExistException;
 import com.plm.project.service.UserService;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
+import com.plm.project.vo.snapshot.UserSnapshotVo;
 import org.springframework.web.bind.annotation.*;
 import com.plm.project.common.R;
 import com.plm.project.vo.query.UserQueryVo;
@@ -36,6 +40,7 @@ public class UserController {
      * @param user 筛选条件
      * @return 查询结果
      */
+    @QueryChange(entityName = AuditEntityType.USER, entityClass = UserVo.class)
     @GetMapping("/list")
     public R<IPage<UserVo>> queryByPage(UserQueryVo user) {
         return R.ok(this.userService.queryByPage(user));
@@ -76,7 +81,7 @@ public class UserController {
      * @param user 实体
      * @return 编辑结果
      */
-    @Change(entity = User.class)
+    @Change(oldEntity = UserSnapshotVo.class,newEntity = UserVo.class,entityName = AuditEntityType.USER)
     @PutMapping("/edit")
     public R edit(@RequestBody UserVo user) {
         return R.ok(this.userService.edit(user));
@@ -97,6 +102,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @Change(oldEntity = UserSnapshotVo.class,newEntity = UserVo.class,entityName = AuditEntityType.USER)
     @PostMapping("/authRoles")
     public R<Boolean> authRoles(@RequestBody UserVo user) {
 
@@ -108,6 +114,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @Change(oldEntity = UserSnapshotVo.class,newEntity = User.class,entityName = AuditEntityType.USER)
     @PutMapping("/changeStatus")
     public R<Boolean> changeStatus(@RequestBody User user) {
        return R.ok(this.userService.changeStatus(user));
@@ -118,10 +125,10 @@ public class UserController {
      * @param ids 主键
      * @return 删除是否成功
      */
+    @DeleteChange(entityName = AuditEntityType.USER)
     @DeleteMapping("delete")
     public R deleteByIds(@RequestParam("ids") List<Long> ids) {
         return R.ok(this.userService.deleteByIds(ids));
     }
-
 }
 

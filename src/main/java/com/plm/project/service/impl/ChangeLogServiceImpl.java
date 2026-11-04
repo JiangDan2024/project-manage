@@ -36,9 +36,39 @@ public class ChangeLogServiceImpl extends ServiceImpl<ChangeLogDao,ChangeLog> im
         if(StringUtils.isNotEmpty(changeLog.getEntityName())){
             queryWrapper.eq("entity_name",changeLog.getEntityName());
         }
-        if(StringUtils.isNotEmpty(changeLog.getEntityId())){
+        if(changeLog.getEntityId()!=null){
             queryWrapper.eq("entity_id",changeLog.getEntityId());
         }
         return this.list(queryWrapper);
+    }
+
+    @Override
+    public List<ChangeLog> getList(List<Long> ids,String entityName) {
+        if(ids==null || ids.isEmpty()){
+            return null;
+        }
+        QueryWrapper<ChangeLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("entity_id",ids);
+        queryWrapper.eq("entity_name",entityName);
+        return this.list(queryWrapper);
+    }
+
+    @Override
+    public void deleteBatch(List<Long> ids, String code) {
+        if(ids==null || ids.isEmpty()){
+            return;
+        }
+        QueryWrapper<ChangeLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("entity_id",ids);
+        queryWrapper.eq("entity_name",code);
+        this.remove(queryWrapper);
+    }
+
+    @Override
+    public void delete(Long id, String code) {
+        QueryWrapper<ChangeLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("entity_id",id);
+        queryWrapper.eq("entity_name",code);
+        this.remove(queryWrapper);
     }
 }

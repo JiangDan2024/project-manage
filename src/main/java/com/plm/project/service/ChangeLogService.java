@@ -18,4 +18,10 @@ public interface ChangeLogService extends IService<ChangeLog> {
     boolean batchAdd(List<ChangeLog> changeLogs);
 
     List<ChangeLog> getList(ChangeLog changeLog);
+
+    List<ChangeLog> getList(List<Long> ids,String entityName);
+
+    void deleteBatch(List<Long> ids, String code);
+
+    void delete(Long id, String code);
 }

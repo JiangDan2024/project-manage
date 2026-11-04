@@ -8,7 +8,6 @@ public class R<T> extends HashMap<String, Object> {
     public final static String CODE_STR = "code";
     public final static String MSG_STR = "msg";
     public final static String DATA_STR = "data";
-
     /**
      * 空消息
      */
@@ -77,5 +76,9 @@ public class R<T> extends HashMap<String, Object> {
     @Override
     public Object put(String key, Object value) {
         return super.put(key, value);
+    }
+
+    public Object getData() {
+        return super.get(DATA_STR);
     }
 }

@@ -1995,7 +1995,7 @@ http://localhost/system/menu/delete/100
 }
 ```
 
-## 三、变更历史--2026.10.27-？
+## 三、变更历史--2026.10.27-2026.11.4(中间回家了5天)
 
 ### 1.变更历史记录（结合AOP）
 
@@ -2096,6 +2096,40 @@ JSON
 }
 ```
 
+#### 3. 根据实体类名和实体类id删除对应的变更记录
+**接口说明**
+- 接口功能
+  根据实体类名和实体类id删除对应的变更记录（当某条记录被删除时，同时删除变更记录）
+- 接口请求地址
+  <http://localhost/system/history/delete>
+
+- 请求方式
+  DELETE
+- 参数类型
+  JSON
+
+**请求示例**
+```json
+{
+    "entityName": "project",
+    "entityId": 1
+}
+```
+
+**请求参数说明**
+| 字段名 | 字段说明 | 字段类型 | 是否必填 |
+| entityName | 实体类名称 | Long | Y |
+| entityId | 实体类的id | String | Y |
+
+**响应示例**
+```json
+{
+  "code": 200,
+  "msg": "操作成功",
+  "data": {}
+}
+```
+
 ## 四、自定义表格
 
 ### 1.表格样式记录
@@ -2117,11 +2151,9 @@ JSON
 [
   {
     "userId":1,
-    "tableCode":"project",
+    "tableCode":"user",
     "columnField":"name",
-    "columnWidth":100,
-    "createTime":"2026-09-10 10:10",
-    "updateTime":"2026-09-10 10:10"
+    "columnWidth":100
   }
 ]
 ```
@@ -2143,7 +2175,6 @@ JSON
   "data": {}
 }
 ```
-
 
 #### 2. 批量新增/编辑列顺序和是否展示
 **接口说明**

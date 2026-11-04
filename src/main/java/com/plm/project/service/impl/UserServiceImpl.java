@@ -165,7 +165,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
 
     @Override
     public boolean deleteByIds(List<Long> ids) {
-        userRoleService.deleteByUserIds(ids);
+        this.removeByIds(ids);
         return true;
     }
 
@@ -269,7 +269,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
     public UserSnapshotVo getSnapshotById(Serializable id) {
         UserSnapshotVo snapshot = new UserSnapshotVo();
         //查询user信息
+        User user = this.getById(id);
         //查询user和role关联表信息
+        List<Long> roles = userRoleService.getRolesByUserId(Long.parseLong(id.toString()));
+        BeanUtils.copyProperties(user,snapshot);
+        snapshot.setRoleIds(roles);
         return snapshot;
     }
 }

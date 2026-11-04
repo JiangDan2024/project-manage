@@ -29,7 +29,7 @@ public class ChangeLog implements Serializable {
      * 实体对象的Id
      */     
         
-    private String entityId;
+    private Long entityId;
     /**
      * 实体的属性名
      */     

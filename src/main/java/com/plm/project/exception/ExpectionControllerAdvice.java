@@ -26,6 +26,6 @@ public class ExpectionControllerAdvice {
     @ExceptionHandler(value = Throwable.class)
     public R handleException(Throwable e) {
         log.error(BizCodeEnume.UNKNOW_EXCEPTION.getMessage(),e);
-        return new R(BizCodeEnume.UNKNOW_EXCEPTION.getCode(),BizCodeEnume.UNKNOW_EXCEPTION.getMessage(),e);
+        return new R(BizCodeEnume.UNKNOW_EXCEPTION.getCode(),BizCodeEnume.UNKNOW_EXCEPTION.getMessage(),e.getMessage());
     }
 }

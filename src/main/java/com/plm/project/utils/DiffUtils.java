@@ -1,15 +1,14 @@
 package com.plm.project.utils;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.plm.project.aspectj.ChangeAspect;
+import com.plm.project.common.AuditEntityType;
 import com.plm.project.entity.ChangeLog;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class DiffUtils {
     //比较两个对象的变更字段
@@ -20,7 +19,7 @@ public class DiffUtils {
      * @param oldObj
      * @return
      */
-    public static List<ChangeLog> compare(Object oldObj, Object newObj,Class<?> oldClass,Class<?> newClass) throws IllegalAccessException, NoSuchFieldException {
+    public static List<ChangeLog> compare(Object oldObj, Object newObj, Class<?> oldClass, Class<?> newClass, AuditEntityType entityName) throws IllegalAccessException, NoSuchFieldException {
         List<ChangeLog> changeLogs = new ArrayList<>();
         //遍历oldObj所有字段（包括父类字段）
         if (oldObj == null) return changeLogs;
@@ -38,9 +37,11 @@ public class DiffUtils {
             newField.setAccessible(true);
             Object newValue = newField.get(newObj);
             //比较新旧值是否相同，不同则加入changelogs
-            if (isEqual(oldValue,newValue)){
+            if (!isEqual(oldValue,newValue)){
                 ChangeLog changeLog = new ChangeLog();
-                changeLog.setEntityName(field.getName());
+                changeLog.setEntityName(entityName.getCode());
+                changeLog.setEntityId(Long.parseLong(ChangeAspect.threadLocal.get().toString()));
+                changeLog.setProperty(field.getName());
                 changeLog.setNewValue(convertToString(newValue));
                 changeLog.setOldValue(convertToString(oldValue));
                 changeLogs.add(changeLog);
@@ -71,8 +72,9 @@ public class DiffUtils {
      * @return
      */
     private static boolean isEqual(Object oldValue, Object newValue) {
-        if(oldValue==null && newValue==null) return true;
-        if(oldValue==null || newValue==null) return false;
+
+        if (isEmpty(oldValue) && isEmpty(newValue)) return true;
+        if(isEmpty(oldValue) || isEmpty(newValue)) return false;
         //集合对比，直接比较内容，不考虑顺序
         if (oldValue instanceof Collection && newValue instanceof Collection) {
             Collection<?> c1 = (Collection<?>) oldValue;
@@ -87,18 +89,38 @@ public class DiffUtils {
         return oldValue.equals(newValue);
     }
 
+    public static boolean isEmpty(Object obj){
+        if(obj==null) return true;
+        if (obj instanceof String){
+            return ((String)obj).trim().isEmpty();
+        }
+        if (obj instanceof Collection){
+            return ((Collection<?>)obj).isEmpty();
+        }
+        return false;
+    }
+
 
     /**
      * 获取某类中的同名字段
-     * @param oldClass
+     * @param newClass
      * @param name
      * @return
      */
-    private static Field findField(Class<?> oldClass, String name) throws NoSuchFieldException {
-        for (Class<?> clazz = oldClass; clazz != Object.class&&clazz!=null; clazz = clazz.getSuperclass()) {
-            return clazz.getDeclaredField(name);
+    private static Field findField(Class<?> newClass, String name) throws NoSuchFieldException {
+        //此处原本逻辑不对，没有循环查询父类，更正为使用try catch尝试获取字段，找到直接返回，否则指向父类，如果未找到抛出异常
+//        for (Class<?> clazz = newClass; clazz != Object.class&&clazz!=null; clazz = clazz.getSuperclass()) {
+//            return clazz.getDeclaredField(name);}
+        Class<?> clazz = newClass;
+        while (clazz != null&&clazz != Object.class) {
+            try {
+                return clazz.getDeclaredField(name);
+            }catch (NoSuchFieldException e){
+                clazz = clazz.getSuperclass();
+            }
         }
-        return null;
+
+        throw new NoSuchFieldException(name + " not found in class " + newClass.getName());
     }
 
     /**

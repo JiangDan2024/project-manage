@@ -1,5 +1,7 @@
 package com.plm.project.common.annotation;
 
+import com.plm.project.common.AuditEntityType;
+
 import java.lang.annotation.*;
 
 @Target({ ElementType.PARAMETER, ElementType.METHOD })
@@ -7,11 +9,15 @@ import java.lang.annotation.*;
 @Documented
 public @interface Change {
     /**
-     * 快照类
+     * 快照类，可编辑字段的一个类，避免透露敏感信息
      */
-    public Class entity() default Object.class;
+    public Class oldEntity() default Object.class;
     /**
-     * 查询类
+     * 查询类，前端传来的修改数据的类型
      */
-    public Class queryEntity() default Object.class;
+    public Class newEntity() default Object.class;
+
+    AuditEntityType entityName() default AuditEntityType.DEFAULT;
+
+
 }
