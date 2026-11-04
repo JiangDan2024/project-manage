@@ -1,5 +1,9 @@
 package com.plm.project.controller;
 
+import com.plm.project.common.AuditEntityType;
+import com.plm.project.common.annotation.Change;
+import com.plm.project.common.annotation.DeleteChange;
+import com.plm.project.common.annotation.QueryChange;
 import com.plm.project.entity.Project;
 import com.plm.project.service.ProjectService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -32,6 +36,7 @@ public class ProjectController {
      * @param project 筛选条件
      * @return 查询结果
      */
+    @QueryChange(entityName = AuditEntityType.PROJECT,entityClass = Project.class)
     @GetMapping("/list")
     public R<IPage<Project>> queryByPage(ProjectQueryVo project) {
         return R.ok(this.projectService.queryByPage(project));
@@ -65,6 +70,7 @@ public class ProjectController {
      * @param project 实体
      * @return 编辑结果
      */
+    @Change(newEntity =  Project.class,oldEntity =  Project.class,entityName = AuditEntityType.PROJECT)
     @PutMapping("/edit")
     public R edit(@RequestBody Project project) {
         return R.ok(this.projectService.edit(project));
@@ -76,6 +82,7 @@ public class ProjectController {
      * @param ids 主键
      * @return 删除是否成功
      */
+    @DeleteChange(entityName = AuditEntityType.PROJECT)
     @DeleteMapping("delete")
     public R deleteByIds(@RequestParam("ids") List<Long> ids) {
         return R.ok(this.projectService.deleteByIds(ids));

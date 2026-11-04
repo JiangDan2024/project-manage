@@ -14,37 +14,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @since 2026-10-25 15:42:15
  */
 public interface TableConfigService extends IService<TableConfig> {
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    TableConfig info(Long id);
-
-    /**
-     * 分页查询
-     *
-     * @param tableConfig 筛选条件
-     * @return 查询结果
-     */
-    IPage<TableConfig> queryByPage(TableConfigQueryVo tableConfig);
-
-    /**
-     * 新增数据
-     *
-     * @param tableConfig 实例对象
-     * @return 实例对象
-     */
-    boolean add(TableConfig tableConfig);
-
-    /**
-     * 修改数据
-     *
-     * @param tableConfig 实例对象
-     * @return 实例对象
-     */
-    boolean edit(TableConfig tableConfig);
 
     /**
      * 通过主键删除数据
@@ -53,4 +22,10 @@ public interface TableConfigService extends IService<TableConfig> {
      * @return 是否成功
      */
     boolean deleteByIds(List<Long> id);
+
+    boolean saveWidth(List<TableConfig> tableConfigs);
+
+    boolean saveOther(List<TableConfig> tableConfigs);
+
+    List<TableConfig> search(TableConfig tableConfig);
 }

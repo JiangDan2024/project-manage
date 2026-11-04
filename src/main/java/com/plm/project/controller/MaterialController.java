@@ -1,5 +1,9 @@
 package com.plm.project.controller;
 
+import com.plm.project.common.AuditEntityType;
+import com.plm.project.common.annotation.Change;
+import com.plm.project.common.annotation.DeleteChange;
+import com.plm.project.common.annotation.QueryChange;
 import com.plm.project.entity.Material;
 import com.plm.project.service.MaterialService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -32,6 +36,7 @@ public class MaterialController {
      * @param material 筛选条件
      * @return 查询结果
      */
+    @QueryChange(entityName = AuditEntityType.MATERIAL,entityClass = Material.class)
     @GetMapping("/list")
     public R<IPage<Material>> queryByPage(MaterialQueryVo material) {
         return R.ok(this.materialService.queryByPage(material));
@@ -65,6 +70,7 @@ public class MaterialController {
      * @param material 实体
      * @return 编辑结果
      */
+    @Change(oldEntity = Material.class, newEntity = Material.class,entityName = AuditEntityType.MATERIAL)
     @PutMapping("/edit")
     public R edit(@RequestBody Material material) {
         return R.ok(this.materialService.edit(material));
@@ -76,6 +82,7 @@ public class MaterialController {
      * @param ids 主键
      * @return 删除是否成功
      */
+    @DeleteChange(entityName = AuditEntityType.MATERIAL)
     @DeleteMapping("delete")
     public R deleteByIds(@RequestParam("ids") List<Long> ids) {
         return R.ok(this.materialService.deleteByIds(ids));
