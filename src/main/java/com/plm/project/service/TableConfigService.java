@@ -2,10 +2,7 @@ package com.plm.project.service;
 
 import com.plm.project.entity.TableConfig;
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.plm.project.vo.query.TableConfigQueryVo;
 import java.util.List;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * 用户表格列个性化配置(TableConfig)表服务接口

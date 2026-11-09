@@ -2,7 +2,7 @@ package com.plm.project.interceptor;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.plm.project.common.UserContext;
-import com.plm.project.entity.User;
+import com.plm.project.vo.UserVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.Nullable;
@@ -13,7 +13,7 @@ public class UserContextInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (StpUtil.isLogin()) {
-            User user = StpUtil.getSession().getModel("user", User.class);
+            UserVo user = StpUtil.getSession().getModel("user", UserVo.class);
             UserContext.set(user);
         }
         return true;

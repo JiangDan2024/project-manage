@@ -5,10 +5,7 @@ import com.plm.project.entity.TableConfig;
 import com.plm.project.dao.TableConfigDao;
 import com.plm.project.service.TableConfigService;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.plm.project.vo.query.TableConfigQueryVo;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +27,12 @@ public class TableConfigServiceImpl extends ServiceImpl<TableConfigDao,TableConf
     public boolean saveWidth(List<TableConfig> tableConfigs) {
         List<TableConfig> list = tableConfigs.stream().map(config -> {
             if (config.getId() == null) {
+                String s = "12345";
+                s.length();
+                for (int i = 0; i < s.length(); i++) {
+                    char c = s.charAt(i);
+
+                }
                 //新增
                 //保证用户id-表code-字段名唯一
                 TableConfig tableConfig = existOtherUseridWithCodeWithColumnname(config);

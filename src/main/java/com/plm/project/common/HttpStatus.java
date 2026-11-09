@@ -10,6 +10,4 @@ public class HttpStatus {
     public final static int ERROR = 400;
     public final static String ERROR_MSG = "操作失败";
 
-
-    //
 }

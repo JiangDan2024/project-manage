@@ -1,6 +1,5 @@
 package com.plm.project.service.impl;
 
-import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.plm.project.common.UserContext;
 import com.plm.project.entity.*;
@@ -20,7 +19,10 @@ import com.plm.project.vo.query.RoleQueryVo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 /**
  * 角色信息表(Role)表服务实现类
  *
@@ -40,6 +42,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao,Role> implements RoleSe
 
     @Autowired
     UserService userService;
+    @Autowired
+    private RoleDao roleDao;
 
     @Override
     public RoleVo info(Long id) {
@@ -193,5 +197,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao,Role> implements RoleSe
     @Override
     public Boolean cancelAll(RoleVo role) {
         return userRoleService.cancelAll(role.getRoleId(),role.getUserIds());
+    }
+
+    @Override
+    public Set<String> selectRolePermissionByUserId(Long userId) {
+        List<Role> roles = roleDao.selectRolePermissionByUserId(userId);
+        Set<String> permissions = new HashSet<>();
+        for (Role role : roles) {
+            permissions.add(role.getRoleKey());
+        }
+        return permissions;
     }
 }

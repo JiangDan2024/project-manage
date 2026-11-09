@@ -66,4 +66,6 @@ public interface UserService extends IService<User>,EntiyService<UserSnapshotVo>
     IPage<UserVo> allocatedList(List<Long> userIds, Integer pageNum, Integer pageSize);
 
     IPage<UserVo> unallocatedList(List<Long> userIds, Integer pageNum, Integer pageSize);
+
+    UserVo getOneByLoginacct(String loginacct);
 }

@@ -7,6 +7,8 @@ import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
 import com.plm.project.vo.query.RoleQueryVo;
 import java.util.List;
+import java.util.Set;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
@@ -67,4 +69,6 @@ public interface RoleService extends IService<Role> {
     Boolean cancel(UserRole userRole);
 
     Boolean cancelAll(RoleVo role);
+
+    Set<String> selectRolePermissionByUserId(Long userId);
 }

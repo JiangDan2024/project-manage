@@ -7,8 +7,7 @@
         <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
         <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
         <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
-        <result property="url" column="url" jdbcType="VARCHAR"/>
-        <result property="target" column="target" jdbcType="VARCHAR"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
         <result property="menuType" column="menu_type" jdbcType="VARCHAR"/>
         <result property="visible" column="visible" jdbcType="VARCHAR"/>
         <result property="perms" column="perms" jdbcType="VARCHAR"/>
@@ -19,6 +18,19 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
+    <select id="selectMenuPermsByRoleId" resultType="java.lang.String">
+        select m.perms from `project-manager`.sys_menu m
+        left join `project-manager`.sys_role_menu srm on m.menu_id = srm.menu_id
+        where role_id = #{roleId}
+    </select>
+    <select id="selectMenusByUserId" resultType="com.plm.project.entity.Menu">
+        select
+            m.menu_id, menu_name, parent_id, order_num, path, menu_type, visible, perms, icon,is_frame,status,route_name
+        from `project-manager`.sys_menu m
+        left join `project-manager`.sys_role_menu rm on m.menu_id = rm.menu_id
+        left join `project-manager`.sys_user_role ur on ur.role_id = rm.role_id
+        where ur.user_id = #{userId}
+    </select>
 
 </mapper>
 

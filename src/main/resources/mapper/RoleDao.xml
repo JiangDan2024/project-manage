@@ -15,6 +15,11 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
+    <select id="selectRolePermissionByUserId" resultMap="RoleMap">
+        select r.role_key from `project-manager`.sys_role r
+        left join `project-manager`.sys_user_role ur on r.role_id = ur.role_id
+        where ur.user_id = #{userId}
+    </select>
 
 </mapper>
 

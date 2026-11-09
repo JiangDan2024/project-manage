@@ -5,8 +5,11 @@ import com.plm.project.entity.Menu;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.plm.project.vo.MenuRoleVo;
 import com.plm.project.vo.MenuVo;
+import com.plm.project.vo.RouterVo;
 import com.plm.project.vo.query.MenuQueryVo;
 import java.util.List;
+import java.util.Set;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -64,4 +67,10 @@ public interface MenuService extends IService<Menu> {
     Boolean updateSort(List<Long> menuIds, List<Integer> orderNums);
 
     DeleteCheckResultDto deleteById(Long id);
+
+    Set<String> selectMenuPermsByRoleId(Long roleId);
+
+    List<MenuVo> selectMenuTreeByUserId(Long userId);
+
+    List<RouterVo> buildMenus(List<MenuVo> menuVoList);
 }

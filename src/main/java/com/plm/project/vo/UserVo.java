@@ -1,5 +1,6 @@
 package com.plm.project.vo;
 
+import cn.dev33.satoken.json.SaJsonType;
 import com.plm.project.entity.Dept;
 import com.plm.project.entity.Role;
 import com.plm.project.entity.User;

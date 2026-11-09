@@ -16,6 +16,7 @@ import com.plm.project.vo.UserVo;
 import com.plm.project.vo.query.RoleQueryVo;
 import com.plm.project.vo.snapshot.UserSnapshotVo;
 import io.micrometer.common.util.StringUtils;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,9 +54,14 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
 
     @Override
     public UserVo info(Long id) {
-        UserVo vo = new UserVo();
         //查出用户信息
         User user = this.getById(id);
+        return getUserVo(user);
+    }
+
+    private @NonNull UserVo getUserVo(User user) {
+        UserVo vo = new UserVo();
+        Long id = user.getUserId();
         BeanUtils.copyProperties(user,vo);
         //查出对应的role信息
         List<Long> roleIds = userRoleService.getRolesByUserId(id);
@@ -219,6 +225,15 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         IPage<User> userIPage = this.page(page,queryWrapper);
         IPage<UserVo> convert = getConvert(userIPage);
         return convert;
+    }
+
+    @Override
+    public UserVo getOneByLoginacct(String loginacct) {
+        User one = this.getOne(new QueryWrapper<User>()
+                .eq("user_name", loginacct)
+                .or().eq("login_name",loginacct)
+                .or().eq("phone_number",loginacct));
+        return getUserVo(one);
     }
 
     @Override

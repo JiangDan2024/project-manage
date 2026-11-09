@@ -9,6 +9,7 @@ import com.plm.project.service.AuthService;
 import com.plm.project.service.UserService;
 import com.plm.project.vo.UserLoginVo;
 import com.plm.project.vo.UserRegisterVo;
+import com.plm.project.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User login(UserLoginVo vo) {
+    public UserVo login(UserLoginVo vo) {
         //根据用户名查询用户信息
-        User user = getByLoginacct(vo.getLoginacct());
+        UserVo user = getByLoginacct(vo.getLoginacct());
         if (user == null) {
             throw new UserNotRegisterExpection();
         }
@@ -58,11 +59,8 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private User getByLoginacct(String loginacct) {
-        User one = userService.getOne(new QueryWrapper<User>().eq("login_name", loginacct)
-                .or().eq("user_name", loginacct)
-                .or().eq("phone_number", loginacct));
-        return one;
+    private UserVo getByLoginacct(String loginacct) {
+        return userService.getOneByLoginacct(loginacct);
     }
 
     private void checkPhoneUnique(String phone) {
