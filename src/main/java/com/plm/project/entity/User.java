@@ -12,7 +12,6 @@ import com.plm.project.common.component.CommonStringStringConverter;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.ToString;
-import org.apache.fesod.sheet.annotation.ExcelIgnore;
 import org.apache.fesod.sheet.annotation.ExcelProperty;
 
 /**

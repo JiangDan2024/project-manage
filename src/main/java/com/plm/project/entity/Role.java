@@ -4,7 +4,6 @@ import java.util.Date;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.plm.project.common.annotation.ExcelDict;
 import com.plm.project.common.component.CommonStringStringConverter;

@@ -5,8 +5,6 @@ import com.plm.project.dto.DeleteCheckResultDto;
 import com.plm.project.entity.Menu;
 import com.plm.project.exception.MenuExecption;
 import com.plm.project.service.MenuService;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.plm.project.vo.MenuRoleVo;
 import com.plm.project.vo.MenuTreeVo;
 import com.plm.project.vo.MenuVo;

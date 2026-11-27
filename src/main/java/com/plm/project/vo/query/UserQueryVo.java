@@ -2,7 +2,6 @@ package com.plm.project.vo.query;
 
 import lombok.Data;
 
-import java.util.Date;
 
 @Data
 public class UserQueryVo extends BaseQueryReq{

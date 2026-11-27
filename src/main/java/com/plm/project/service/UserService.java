@@ -73,7 +73,6 @@ public interface UserService extends IService<User>,EntiyService<UserSnapshotVo>
     /**
      *
      * @param file 上传的文件
-     * @param response
      * @param isUpdateUser 是否更新已存在的数据
      * @return
      */
