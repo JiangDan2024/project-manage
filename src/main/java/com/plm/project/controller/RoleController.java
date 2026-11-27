@@ -3,8 +3,10 @@ package com.plm.project.controller;
 import com.plm.project.entity.UserRole;
 import com.plm.project.service.RoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.plm.project.utils.ExcelUtils;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import com.plm.project.common.R;
 import com.plm.project.vo.query.RoleQueryVo;
@@ -19,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2026-10-25 15:41:36
  */
 @RestController
-@RequestMapping("role")
+@RequestMapping("/sys/role")
 public class RoleController {
     /**
      * 服务对象
@@ -142,6 +144,16 @@ public class RoleController {
     @DeleteMapping("delete")
     public R deleteByIds(@RequestParam("ids") List<Long> ids) {
         return R.ok(this.roleService.deleteByIds(ids));
+    }
+
+    //导出数据
+    @PostMapping("exportExcel")
+    public void exportExcel(@RequestBody RoleQueryVo role, HttpServletResponse response) throws Exception {
+        //查询角色列表
+        IPage<RoleVo> roleVoIPage = this.roleService.queryByPage(role);
+        List<RoleVo> records = roleVoIPage.getRecords();
+        ExcelUtils utils =  new ExcelUtils();
+        utils.exportExcel(records,"角色表",RoleVo.class,"template/role-template.xlsx",response);
     }
 
 }

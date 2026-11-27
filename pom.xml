@@ -50,6 +50,12 @@
             <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
             <version>3.5.17</version>
         </dependency>
+        <!--分页查询需要插件-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+            <version>3.5.17</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -118,6 +124,12 @@
             <groupId>de.danielbechler</groupId>
             <artifactId>java-object-diff</artifactId>
             <version>0.95</version>
+        </dependency>
+        <!-- excel导入导出工具-->
+        <dependency>
+            <groupId>org.apache.fesod</groupId>
+            <artifactId>fesod-sheet</artifactId>
+            <version>2.1.0-incubating</version>
         </dependency>
     </dependencies>
 

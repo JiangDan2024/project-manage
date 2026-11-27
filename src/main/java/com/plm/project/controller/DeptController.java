@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2026-10-25 15:40:42
  */
 @RestController
-@RequestMapping("dept")
+@RequestMapping("/sys/dept")
 public class DeptController {
     /**
      * 服务对象

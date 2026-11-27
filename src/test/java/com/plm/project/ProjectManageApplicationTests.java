@@ -1,10 +1,12 @@
 package com.plm.project;
 
+import org.apache.fesod.sheet.FesodSheet;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -17,10 +19,12 @@ class ProjectManageApplicationTests {
 
     @Test
     void testTask(){
-        int[] servers = new int[]{5,1,4,3,2};
-        int[] tasks = new int[]{2,1,2,4,5,2,1};
-        int[] ints = assignTasks(servers, tasks);
-        System.out.println("结果--------------------"+Arrays.toString(ints));
+//        int[] servers = new int[]{5,1,4,3,2};
+//        int[] tasks = new int[]{2,1,2,4,5,2,1};
+//        int[] ints = assignTasks(servers, tasks);
+//        System.out.println("结果--------------------"+Arrays.toString(ints));
+        long l = minimumCost(388168, 988887, 336014, 50411, 252237);
+        System.out.println(l);
     }
 
     public int[] assignTasks(int[] servers, int[] tasks) {
@@ -74,6 +78,40 @@ class ProjectManageApplicationTests {
             }
         }
         return new Object[]{minId,min};
+    }
+
+    public long minimumCost(int cost1, int cost2, int costBoth, int need1, int need2) {
+        //如果cost1+cost2>both，就优先用both，否则优先用cost1+cost2，试试这个思路
+        long sum = 0;
+        if(cost1+cost2>costBoth){
+            if(need1>need2){
+                sum = (long)costBoth * need2;
+                int min = Math.min(cost1,costBoth);
+                sum = sum +(long) min * (need1-need2);
+            }else{
+                sum = (long)costBoth * need1;
+                int min = Math.min(cost2,costBoth);
+                sum = sum + (long)min * (need2-need1);
+            }
+        }else{
+            sum = (long)cost1*need1 + (long)cost2*need2;
+        }
+        return sum;
+    }
+
+    // 在某个测试类里直接跑
+    @Test
+    public void testRead() {
+        String fileName =  "C:\\Users\\简单的蛋\\Desktop\\工作簿1.xlsx";
+        // 使用 Map 接收，不依赖你写的实体类
+        List<Map<Integer, String>> list = FesodSheet.read(fileName)
+                .headRowNumber(0)
+                .sheet()
+                .doReadSync(); // 同步读取
+
+        for (Map<Integer, String> map : list) {
+            System.out.println(map); // 看看这里能不能打印出数据
+        }
     }
 
 }

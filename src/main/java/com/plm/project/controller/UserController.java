@@ -6,18 +6,26 @@ import com.plm.project.common.BizCodeEnume;
 import com.plm.project.common.annotation.Change;
 import com.plm.project.common.annotation.DeleteChange;
 import com.plm.project.common.annotation.QueryChange;
+import com.plm.project.entity.Dept;
 import com.plm.project.entity.User;
 import com.plm.project.exception.LoginNameExistException;
 import com.plm.project.service.UserService;
+import com.plm.project.utils.ExcelUtils;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
+import com.plm.project.vo.excel.UserExcelVo;
 import com.plm.project.vo.snapshot.UserSnapshotVo;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import com.plm.project.common.R;
 import com.plm.project.vo.query.UserQueryVo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 用户信息表(User)表控制层
@@ -127,8 +135,45 @@ public class UserController {
      */
     @DeleteChange(entityName = AuditEntityType.USER)
     @DeleteMapping("delete")
-    public R deleteByIds(@RequestParam("ids") List<Long> ids) {
+    public R deleteByIds(@RequestParam List<Long> ids) {
         return R.ok(this.userService.deleteByIds(ids));
+    }
+
+    /**
+     * 导出表格
+     * @param query
+     * @param response
+     */
+    @PostMapping("/export")
+    public void exportExcel(@RequestBody UserQueryVo query, HttpServletResponse response){
+        if(query==null){
+            query=new UserQueryVo();
+        }
+        //查询数据
+        IPage<UserVo> iPage = this.userService.queryByPage(query);
+        List<UserVo> records = iPage.getRecords();
+
+        //扁平化对象
+        List<UserExcelVo> userExcelVos = records.stream().map(vo->{
+            UserExcelVo userExcelVo = new UserExcelVo();
+            BeanUtils.copyProperties(vo,userExcelVo);
+            Dept dept = vo.getDept();
+            if (dept!=null){
+                userExcelVo.setDeptName(dept.getDeptName());
+            }
+            return userExcelVo;
+        }).toList();
+
+        //导出表格
+        ExcelUtils excelUtils = new ExcelUtils();
+
+        excelUtils.exportExcel(userExcelVos,"用户表", UserExcelVo.class,"template/user-template.xlsx",response);
+    }
+
+    @PostMapping("/import")
+    public R<String> importExcel(@RequestPart("file") MultipartFile file){
+
+        return R.ok(this.userService.importExcel(file,true));
     }
 }
 

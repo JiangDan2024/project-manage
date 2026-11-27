@@ -19,4 +19,7 @@ public class UserConstants {
 
     //Layout组件标识
     public static final String LAYOUT = "Layout";
+
+    //默认密码
+    public static final String PASSWORD_DEFAULT = "123456";
 }

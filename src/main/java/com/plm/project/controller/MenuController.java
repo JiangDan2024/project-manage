@@ -8,6 +8,7 @@ import com.plm.project.service.MenuService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.plm.project.vo.MenuRoleVo;
+import com.plm.project.vo.MenuTreeVo;
 import com.plm.project.vo.MenuVo;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 2026-10-25 15:41:14
  */
 @RestController
-@RequestMapping("menu")
+@RequestMapping("/sys/menu")
 public class MenuController {
     /**
      * 服务对象
@@ -39,17 +40,17 @@ public class MenuController {
      * @return 查询结果
      */
     @GetMapping("/list")
-    public R<List<Menu>> getList(MenuQueryVo menu) {
+    public R<List<MenuVo>> getList(MenuQueryVo menu) {
         return R.ok(this.menuService.getList(menu));
     }
 
     /**
      * 查询树目录
-     * @param menu
+     * @param menu。
      * @return
      */
     @GetMapping("/treeselect")
-    public R<List<MenuVo>> treeSelect(MenuQueryVo menu){
+    public R<List<MenuTreeVo>> treeSelect(MenuQueryVo menu){
         return R.ok(this.menuService.treeSelect(menu));
     }
 
@@ -106,13 +107,12 @@ public class MenuController {
 
     /**
      * 批量更新菜单顺序
-     * @param menuIds
-     * @param orderNums
+     * @param menus
      * @return
      */
     @PutMapping("/updateSort")
-    public R<Boolean> updateSort(@RequestBody List<Long> menuIds,List<Integer> orderNums) {
-        return R.ok(this.menuService.updateSort(menuIds,orderNums));
+    public R<Boolean> updateSort(@RequestBody List<Menu> menus) {
+        return R.ok(this.menuService.updateSort(menus));
     }
 
     /**
@@ -121,8 +121,8 @@ public class MenuController {
      * @return
      */
 
-    @DeleteMapping("delete")
-    public R<DeleteCheckResultDto> deleteById(@RequestBody Long id){
+    @DeleteMapping("delete/{id}")
+    public R<DeleteCheckResultDto> deleteById(@PathVariable("id") Long id){
         return R.ok(this.menuService.deleteById(id));
     }
 

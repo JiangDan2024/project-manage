@@ -6,8 +6,10 @@ import com.plm.project.vo.UserVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jspecify.annotations.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+@Component
 public class UserContextInterceptor implements HandlerInterceptor {
     //每个请求执行前初始化UserContext
     @Override

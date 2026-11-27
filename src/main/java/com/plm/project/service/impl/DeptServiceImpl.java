@@ -196,4 +196,16 @@ public class DeptServiceImpl extends ServiceImpl<DeptDao, Dept> implements DeptS
         List<Dept> list = this.list(queryWrapper);
         return list;
     }
+
+    @Override
+    public Dept getDeptByName(String deptName) {
+        if(StringUtils.isNotEmpty(deptName)){
+            QueryWrapper<Dept> wrapper = new QueryWrapper<>();
+            wrapper.eq("del_flag", "0");
+            wrapper.eq("status","0");
+            wrapper.eq("dept_name", deptName);
+            return this.getOne(wrapper);
+        }
+        return null;
+    }
 }

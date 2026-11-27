@@ -7,9 +7,13 @@ import cn.dev33.satoken.json.SaJsonType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.plm.project.common.annotation.BizId;
+import com.plm.project.common.annotation.ExcelDict;
+import com.plm.project.common.component.CommonStringStringConverter;
 import lombok.Data;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.ToString;
+import org.apache.fesod.sheet.annotation.ExcelIgnore;
+import org.apache.fesod.sheet.annotation.ExcelProperty;
 
 /**
  * 用户信息表(User)实体类
@@ -51,6 +55,8 @@ public class User implements Serializable, SaJsonType {
     /**
      * 用户性别（0男 1女 2未知）
      */
+    @ExcelDict("sex")
+    @ExcelProperty(value = "用户性别",converter = CommonStringStringConverter.class)
     private String sex="1";
     /**
      * 头像路径
@@ -63,6 +69,8 @@ public class User implements Serializable, SaJsonType {
     /**
      * 账号状态（0正常 1停用）
      */
+    @ExcelDict("status")
+    @ExcelProperty(value = "账号状态",converter = CommonStringStringConverter.class)
     private String status="0";
     /**
      * 删除标志（0代表存在 2代表删除）

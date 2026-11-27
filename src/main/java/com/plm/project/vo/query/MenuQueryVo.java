@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class MenuQueryVo {
     private String menuName;
-    private Boolean status;
+    private String status;
 }

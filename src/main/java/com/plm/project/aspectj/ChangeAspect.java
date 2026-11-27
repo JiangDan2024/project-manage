@@ -95,7 +95,7 @@ public class ChangeAspect {
             if (proceed.getData() instanceof IPage) {
                 IPage<?> page = (IPage<?>) proceed.getData();
                 //获取id的list，使用getEntityId
-                List ids = new ArrayList<>();
+                List<Long> ids = new ArrayList<>();
                 Class<?> entityClass = queryChange.entityClass();
                 if (page.getRecords() != null && !page.getRecords().isEmpty()) {
                     ids = page.getRecords().stream().map(item->{
@@ -114,14 +114,17 @@ public class ChangeAspect {
                 List<ChangeLog> changeLogs = changeLogService.getList(ids,queryChange.entityName().getCode());
                 //放入Map<id,changelogs>，返回BizPage
                 Map<Long,List<ChangeLog>> changeLogsMap = new HashMap<>();
-                for (ChangeLog changeLog : changeLogs) {
-                    List<ChangeLog> logs = changeLogsMap.get(changeLog.getEntityId());
-                    if (logs == null||logs.isEmpty()) {
-                        logs = new ArrayList<>();
+                if(changeLogs!=null && changeLogs.size()>0){
+                    for (ChangeLog changeLog : changeLogs) {
+                        List<ChangeLog> logs = changeLogsMap.get(changeLog.getEntityId());
+                        if (logs == null||logs.isEmpty()) {
+                            logs = new ArrayList<>();
+                        }
+                        logs.add(changeLog);
+                        changeLogsMap.put(changeLog.getEntityId(),logs);
                     }
-                    logs.add(changeLog);
-                    changeLogsMap.put(changeLog.getEntityId(),logs);
                 }
+
                 BizPage bizPage = new BizPage(page, changeLogsMap);
                 return R.ok(bizPage);
             }

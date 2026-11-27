@@ -1,13 +1,14 @@
 package com.plm.project.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.plm.project.common.R;
 import com.plm.project.entity.User;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
 import com.plm.project.vo.query.UserQueryVo;
 import com.plm.project.vo.snapshot.UserSnapshotVo;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 /**
@@ -68,4 +69,13 @@ public interface UserService extends IService<User>,EntiyService<UserSnapshotVo>
     IPage<UserVo> unallocatedList(List<Long> userIds, Integer pageNum, Integer pageSize);
 
     UserVo getOneByLoginacct(String loginacct);
+
+    /**
+     *
+     * @param file 上传的文件
+     * @param response
+     * @param isUpdateUser 是否更新已存在的数据
+     * @return
+     */
+    String importExcel(MultipartFile file, boolean isUpdateUser);
 }

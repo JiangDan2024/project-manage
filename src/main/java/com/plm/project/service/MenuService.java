@@ -4,14 +4,12 @@ import com.plm.project.dto.DeleteCheckResultDto;
 import com.plm.project.entity.Menu;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.plm.project.vo.MenuRoleVo;
+import com.plm.project.vo.MenuTreeVo;
 import com.plm.project.vo.MenuVo;
 import com.plm.project.vo.RouterVo;
 import com.plm.project.vo.query.MenuQueryVo;
 import java.util.List;
 import java.util.Set;
-
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * 菜单表(Menu)表服务接口
@@ -34,7 +32,7 @@ public interface MenuService extends IService<Menu> {
      * @param menu 筛选条件
      * @return 查询结果
      */
-    List<Menu> getList(MenuQueryVo menu);
+    List<MenuVo> getList(MenuQueryVo menu);
 
     /**
      * 新增数据
@@ -60,11 +58,11 @@ public interface MenuService extends IService<Menu> {
      */
     DeleteCheckResultDto deleteByIds(List<Long> id);
 
-    List<MenuVo> treeSelect(MenuQueryVo menu);
+    List<MenuTreeVo> treeSelect(MenuQueryVo menu);
 
     MenuRoleVo roleMenuTreeselect(Long roleId);
 
-    Boolean updateSort(List<Long> menuIds, List<Integer> orderNums);
+    Boolean updateSort(List<Menu> menus);
 
     DeleteCheckResultDto deleteById(Long id);
 

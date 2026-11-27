@@ -1,6 +1,5 @@
 package com.plm.project.service;
 
-import com.plm.project.entity.User;
 import com.plm.project.vo.UserVo;
 
 import java.util.Set;

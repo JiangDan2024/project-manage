@@ -3,25 +3,33 @@ package com.plm.project.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.plm.project.common.UserConstants;
+import com.plm.project.common.UserContext;
 import com.plm.project.dao.RoleDao;
 import com.plm.project.entity.Dept;
 import com.plm.project.entity.Role;
 import com.plm.project.entity.User;
 import com.plm.project.dao.UserDao;
 import com.plm.project.entity.UserRole;
+import com.plm.project.exception.ExcelException;
 import com.plm.project.exception.LoginNameExistException;
 import com.plm.project.service.*;
+import com.plm.project.utils.ExcelUtils;
+import com.plm.project.utils.ValidatorUtils;
 import com.plm.project.vo.RoleVo;
 import com.plm.project.vo.UserVo;
+import com.plm.project.vo.excel.UserExcelVo;
 import com.plm.project.vo.query.RoleQueryVo;
 import com.plm.project.vo.snapshot.UserSnapshotVo;
 import io.micrometer.common.util.StringUtils;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.plm.project.vo.query.UserQueryVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +60,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
     @Autowired
     private RoleMenuService roleMenuService;
 
+    @Autowired
+    ValidatorUtils globalValidator;
+
     @Override
     public UserVo info(Long id) {
         //查出用户信息
@@ -67,7 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         List<Long> roleIds = userRoleService.getRolesByUserId(id);
         List<Role> roleList = new ArrayList<>();
         if (roleIds != null && !roleIds.isEmpty()) {
-            roleList = roleDao.selectList(new QueryWrapper<Role>().in("role_id", roleIds));
+            roleList = roleDao.selectList(new QueryWrapper<Role>().eq("status",'0').eq("del_flag",'0'));
         }
         if(roleList!=null&&roleList.size()>0){
             List<RoleVo> roleVos = roleList.stream().map(r -> {
@@ -94,6 +105,15 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         }
         if(StringUtils.isNotEmpty(user.getPhoneNumber())){
             wrapper.like("phone_number",user.getPhoneNumber());
+        }
+        if(StringUtils.isNotEmpty(user.getStatus())){
+            wrapper.eq("status",user.getStatus());
+        }
+        if(user.getBeginTime()!=null){
+            wrapper.ge("create_time",user.getBeginTime());
+        }
+        if(user.getEndTime()!=null){
+            wrapper.le("create_time",user.getEndTime());
         }
         //查出用户信息
         IPage<User> userIPage = this.page(page,wrapper);
@@ -128,8 +148,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         //新增用户信息
         User user = new User();
         BeanUtils.copyProperties(vo,user);
-        //TODO 获取当前用户信息，登录成功要存储用户信息
-        //user.setCreateBy();
+        //获取当前用户信息，登录成功要存储用户信息
+        user.setCreateBy(UserContext.get().getUserName());
         user.setCreateTime(new Date());
         this.save(user);
         //新增用户和角色关联表
@@ -233,7 +253,89 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
                 .eq("user_name", loginacct)
                 .or().eq("login_name",loginacct)
                 .or().eq("phone_number",loginacct));
-        return getUserVo(one);
+        if(one!=null){
+            return getUserVo(one);
+        }
+        return null;
+    }
+
+    @Override
+    public String importExcel(MultipartFile file, boolean isUpdateUser) {
+        //读取文件中的数据，数据为空就直接返回，不能为空
+        ExcelUtils utils = new ExcelUtils();
+        List<UserExcelVo> vos = utils.importExcel(file, UserExcelVo.class);
+        if(vos==null ||vos.size()==0) throw new ExcelException("文件不能为空");
+        int successNum = 0;
+        int failureNum = 0;
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
+        //遍历数据
+        for (UserExcelVo vo : vos) {
+            //判断用户是否已存在（根据用户名）
+            UserVo user = this.getOneByLoginacct(vo.getLoginName());
+            try {
+                if (user == null) {
+                    //用户不存在，则构建一条新的记录
+                    //校验新用户的数据，校验不通过的话在catch里记录在failureMsg中
+                    globalValidator.validate(vo);
+                    // 初始化密码，创建时间，创建人
+                    vo.setCreateTime(new Date());
+                    UserVo userVo = UserContext.get();
+                    vo.setCreateBy(userVo.getUserName());
+                    BCryptPasswordEncoder encoder = new  BCryptPasswordEncoder();
+                    String password = encoder.encode(UserConstants.PASSWORD_DEFAULT);
+                    vo.setPassword(password);
+                    this.addUserExcelVo(vo);
+                    successNum++;
+                    successMsg.append("用户"+vo.getUserName()+"添加成功；");
+                }else if(isUpdateUser){
+                    //用户已存在，根据isUpdateUser，如果是true则更新，false则在else中新增failureMsg，错误消息为“该用户已存在”
+                    //更新用户时，先校验用户数据，校验通过继续，未通过记录failureMsg
+                    globalValidator.validate(vo);
+                    vo.setUserId(user.getUserId());
+                    vo.setUpdateTime(new Date());
+                    UserVo userVo = UserContext.get();
+                    vo.setUpdateBy(userVo.getUserName());
+                    this.editUserExcelVo(vo);
+                    successNum++;
+                    successMsg.append("用户"+vo.getUserName()+"修改成功；\n");
+                }else{
+                    failureNum++;
+                    failureMsg.append("用户"+vo.getUserName()+"添加失败；失败原因：用户已存在；\n");
+                }
+            }catch (Exception e){
+                failureNum++;
+                failureMsg.append("用户"+vo.getUserName()+"添加失败；失败原因："+e.getMessage()+"；\n");
+            }
+        }
+        //如果failureMsg>0，说明存在失败信息，返回报错信息，否则返回成功信息
+        if(failureNum>0){
+            failureMsg.insert(0,"导入结束，"+successNum+"条成功，"+failureNum+"失败，详细信息如下：");
+            throw new ExcelException(failureMsg.toString());
+        }
+        successMsg.insert(0,"导入成功！详细信息如下：");
+        //todo 更新为什么涉及到用户的权限？
+        return successMsg.toString();
+    }
+
+    private void editUserExcelVo(UserExcelVo vo) {
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(vo,userVo);
+        Dept dept = deptService.getDeptByName(vo.getDeptName());
+        if(dept!=null){
+            userVo.setDeptId(dept.getDeptId());
+        }
+        this.edit(userVo);
+    }
+
+    private void addUserExcelVo(UserExcelVo vo) {
+        UserVo user = new UserVo();
+        BeanUtils.copyProperties(vo, user);
+        Dept dept = deptService.getDeptByName(vo.getDeptName());
+        if(dept!=null){
+            user.setDeptId(dept.getDeptId());
+        }
+        add(user);
     }
 
     @Override

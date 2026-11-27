@@ -6,9 +6,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class MenuVo {
-    private Menu menu;
-    //是否为外链
-    private Boolean isFrame;
+public class MenuVo extends Menu {
     private List<MenuVo> children;
 }

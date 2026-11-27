@@ -31,10 +31,12 @@ public class PermissionServiceImpl implements PermissionService {
         Set<String> permissions = new HashSet<>();
         //获取目录的权限列表，根据角色id
         List<RoleVo> roleList = user.getRoleList();
-        for (RoleVo role : roleList) {
-            Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
-            permissions.addAll(rolePerms);
-            role.setPermissions(rolePerms);
+        if(roleList!=null&&roleList.size()>0){
+            for (RoleVo role : roleList) {
+                Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
+                permissions.addAll(rolePerms);
+                role.setPermissions(rolePerms);
+            }
         }
         return permissions;
     }

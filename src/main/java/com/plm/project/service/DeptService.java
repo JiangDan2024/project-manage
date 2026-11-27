@@ -59,4 +59,6 @@ public interface DeptService extends IService<Dept> {
     Boolean saveSort(List<Long> deptIds, List<Integer> sorts);
 
     List<Dept> getList(Dept dept);
+
+    Dept getDeptByName(String deptName);
 }

@@ -17,6 +17,7 @@
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="selectMenuPermsByRoleId" resultType="java.lang.String">
         select m.perms from `project-manager`.sys_menu m
@@ -25,7 +26,7 @@
     </select>
     <select id="selectMenusByUserId" resultType="com.plm.project.entity.Menu">
         select
-            m.menu_id, menu_name, parent_id, order_num, path, menu_type, visible, perms, icon,is_frame,status,route_name
+            m.menu_id, menu_name, parent_id, order_num, path, menu_type, visible, perms, icon,is_frame,status,route_name,component
         from `project-manager`.sys_menu m
         left join `project-manager`.sys_role_menu rm on m.menu_id = rm.menu_id
         left join `project-manager`.sys_user_role ur on ur.role_id = rm.role_id

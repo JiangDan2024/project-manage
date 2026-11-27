@@ -61,17 +61,25 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao,Role> implements RoleSe
     public IPage<RoleVo> queryByPage(RoleQueryVo role) {
         Page page = new Page(role.getPageNum(),role.getPageSize());
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("status",role.getStatus());
+        if(role.getStatus()!=null){
+            queryWrapper.eq("status",role.getStatus());
+        }
         if (StringUtils.isNotEmpty(role.getKeyword())){
-            queryWrapper.and(q->{
-                q.like("role_name",role.getKeyword())
-                        .or().like("role_key",role.getKeyword());
-            });
+            queryWrapper.like("role_name",role.getKeyword());
+        }
+        if(StringUtils.isNotEmpty(role.getRoleKey())){
+            queryWrapper.eq("role_key",role.getRoleKey());
+        }
+        if(StringUtils.isNotEmpty(role.getBeginTime())){
+            queryWrapper.ge("create_time",role.getBeginTime());
+        }
+        if(StringUtils.isNotEmpty(role.getEndTime())){
+            queryWrapper.le("create_time",role.getEndTime());
         }
         IPage<Role> roleIPage = this.page(page,queryWrapper);
         IPage<RoleVo> roleVoIPage = roleIPage.convert(r -> {
             RoleVo roleVo = new RoleVo();
-            BeanUtils.copyProperties(role, roleVo);
+            BeanUtils.copyProperties(r, roleVo);
             //获取关联的部门id
             List<Long> deptIds = roleDeptService.getIdByRoleId(r.getRoleId());
             roleVo.setDeptIds(deptIds);
@@ -92,27 +100,33 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao,Role> implements RoleSe
         //新增角色
         Role roleEntity = new Role();
         User user = UserContext.get();
+        BeanUtils.copyProperties(role,roleEntity);
         roleEntity.setCreateBy(user.getUserId().toString());
         roleEntity.setUpdateBy(user.getUserId().toString());
         roleEntity.setCreateTime(new Date());
         roleEntity.setUpdateTime(new Date());
         this.save(roleEntity);
         //新增角色-部门关联
-        List<RoleDept> roleDepts = role.getDeptIds().stream().map(id -> {
-            RoleDept roleDept = new RoleDept();
-            roleDept.setRoleId(roleEntity.getRoleId());
-            roleDept.setDeptId(id);
-            return roleDept;
-        }).toList();
-        roleDeptService.saveBatch(roleDepts);
-        //新增角色-目录关联
-        List<RoleMenu> roleMenus = role.getMenuIds().stream().map(id -> {
-            RoleMenu roleMenu = new RoleMenu();
-            roleMenu.setRoleId(roleEntity.getRoleId());
-            roleMenu.setMenuId(id);
-            return roleMenu;
-        }).toList();
-        roleMenuService.saveBatch(roleMenus);
+        if(role.getDeptIds()!=null&&role.getDeptIds().size()>0){
+            List<RoleDept> roleDepts = role.getDeptIds().stream().map(id -> {
+                RoleDept roleDept = new RoleDept();
+                roleDept.setRoleId(roleEntity.getRoleId());
+                roleDept.setDeptId(id);
+                return roleDept;
+            }).toList();
+            roleDeptService.saveBatch(roleDepts);
+        }
+        if(role.getMenuIds()!=null&&role.getMenuIds().size()>0){
+            //新增角色-目录关联
+            List<RoleMenu> roleMenus = role.getMenuIds().stream().map(id -> {
+                RoleMenu roleMenu = new RoleMenu();
+                roleMenu.setRoleId(roleEntity.getRoleId());
+                roleMenu.setMenuId(id);
+                return roleMenu;
+            }).toList();
+            roleMenuService.saveBatch(roleMenus);
+        }
+
         return true;
     }
 
